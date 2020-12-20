@@ -26,8 +26,25 @@ if [[ "$cmd" != "reuse" ]];then
     git tag -a v$version -m "version: $version"
     git push origin master
 
-    echo "building UI"
+    cd ../jade-devops
+    git add .
+    git commit -m "version: $version"
+    git tag -a v$version -m "version: $version"
+    git push origin master
+
+    cd ../jade-doc
+    git add .
+    git commit -m "version: $version"
+    git tag -a v$version -m "version: $version"
+    git push origin master
+
     cd ../jade-ui
+    git add .
+    git commit -m "version: $version"
+    git tag -a v$version -m "version: $version"
+    git push origin master
+    
+    echo "building UI"
     npm run build
 
     cd ..
