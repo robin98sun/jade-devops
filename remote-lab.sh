@@ -2,9 +2,10 @@
 
 # this is only a batch script for building images on the cluster of lab
 # password of docker-registry
-password=$1
-version=$2
-cmd=$3
+registry=$1
+password=$2
+version=$3
+cmd=$4
 
 if [[ "$cmd" != "reuse" ]];then
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui
@@ -63,7 +64,7 @@ echo "build on the remote servers"
     aces-pi-11 pi \
     ./jadelet.source.tar.gz \
     build-and-push \
-    robin98 ${version}-arm32 \
+    ${registry} ${version}-arm32 \
     ${password}
 
 ./jade-devops/remote-build.sh \
@@ -71,7 +72,7 @@ echo "build on the remote servers"
     aces-diamonds-ace robin \
     ./jadelet.source.tar.gz \
     reuse \
-    robin98 ${version}-amd64 \
+    ${registry} ${version}-amd64 \
     ${password}
 
 echo "deploy on the cluster master"
