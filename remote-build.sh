@@ -146,7 +146,7 @@ if [[ "$source_pack" != "" ]];then
     mv $source_pack $workspace
     cd $workspace
     tar xzf jadelet.source.tar.gz
-    rm -f jadelet.source.tar.gz
+    # rm -f jadelet.source.tar.gz
     cd -
 fi 
 

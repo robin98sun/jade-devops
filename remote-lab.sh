@@ -59,11 +59,15 @@ if [[ "$cmd" != "reuse" ]];then
 fi
 
 echo "build on the remote servers"
+if [[ "$cmd" != "reuse" ]]; then
+    cmd="build-and-push"
+fi
+
 ./jade-devops/remote-build.sh \
     aces-diamonds-ace robin \
     aces-pi-11 pi \
     ./jadelet.source.tar.gz \
-    build-and-push \
+    $cmd \
     ${registry} ${version}-arm32 \
     ${password}
 
