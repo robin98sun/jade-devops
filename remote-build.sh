@@ -128,7 +128,7 @@ workspace="~/Dev/src/jadelet"
 
 ssh -t ${remote_account}@${remote_host} <<!
 
-echo "=============================arrived remote device=============================="
+echo "=======================arrived remote device: ${remote_account}@${remote_host}======================"
 id
 hostname
 echo "workspace = " $workspace
@@ -216,6 +216,6 @@ fi
 fi
 
 echo "done on remote device"
-echo "===========================Leaving remote device========================"
+echo "======================Leaving remote device: ${remote_account}@${remote_host}========================"
 exit
 !
