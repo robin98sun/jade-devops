@@ -127,9 +127,8 @@ fi
 workspace="~/Dev/src/jadelet"
 
 ssh -t ${remote_account}@${remote_host} <<!
-
 echo "=======================arrived remote device: ${remote_account}@${remote_host}======================"
-id
+id -un
 hostname
 echo "workspace = " $workspace
 # clear and re-establish the workplace
