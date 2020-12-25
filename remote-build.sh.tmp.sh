@@ -1,3 +1,14 @@
+# begin of auto generated code
+remote_host=aces-pi-11
+remote_account=pi
+hostname
+source_pack="~/jadelet.source.tar.gz"
+scp ~/jadelet.source.tar.gz pi@aces-pi-11:~/jadelet.source.tar.gz
+cmd=build-and-push
+registry='robin98'
+tag='1.4.26.12.3.4-arm32'
+registry_password='s786_546q'
+# end of auto generated code
 #!/usr/bin/env bash
 
 # important: remote user must be in sudo group and OMIT PASSWORD
@@ -58,7 +69,7 @@ if [[ "$proxy_account" != "" && "$proxy_host" != "" && "$proxy_account" != "none
                 rm -f ~/jadelet.source.tar.gz
 !
             scp $tarfile ${proxy_account}@${proxy_host}:~/jadelet.source.tar.gz
-            ssh -t ${proxy_account}@${proxy_host} <<!
+            ssh -tt ${proxy_account}@${proxy_host} <<!
                 rm -rf ~/tmp/jadelet
                 mkdir -p ~/tmp/jadelet
                 cp ~/jadelet.source.tar.gz ~/tmp/jadelet
@@ -101,7 +112,7 @@ elif [[ "$tarfile" != "" ]];then
 !
         scp $tarfile ${remote_account}@${remote_host}:~/jadelet.source.tar.gz
     fi
-    ssh -t ${remote_account}@${remote_host} <<!
+    ssh -tt ${remote_account}@${remote_host} <<!
         rm -rf ~/tmp/jadelet
         mkdir -p ~/tmp/jadelet
         cp ~/jadelet.source.tar.gz ~/tmp/jadelet
@@ -126,7 +137,7 @@ fi
 
 workspace="~/Dev/src/jadelet"
 
-ssh -t ${remote_account}@${remote_host} <<!
+ssh -tt ${remote_account}@${remote_host} <<!
 
 echo "=============================arrived remote device=============================="
 id
