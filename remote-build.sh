@@ -58,7 +58,7 @@ if [[ "$proxy_account" != "" && "$proxy_host" != "" && "$proxy_account" != "none
                 rm -f ~/jadelet.source.tar.gz
 !
             scp $tarfile ${proxy_account}@${proxy_host}:~/jadelet.source.tar.gz
-            ssh ${proxy_account}@${proxy_host} <<!
+            ssh -tt ${proxy_account}@${proxy_host} <<!
                 rm -rf ~/tmp/jadelet
                 mkdir -p ~/tmp/jadelet
                 cp ~/jadelet.source.tar.gz ~/tmp/jadelet
@@ -101,7 +101,7 @@ elif [[ "$tarfile" != "" ]];then
 !
         scp $tarfile ${remote_account}@${remote_host}:~/jadelet.source.tar.gz
     fi
-    ssh -t ${remote_account}@${remote_host} <<!
+    ssh -tt ${remote_account}@${remote_host} <<!
         rm -rf ~/tmp/jadelet
         mkdir -p ~/tmp/jadelet
         cp ~/jadelet.source.tar.gz ~/tmp/jadelet
@@ -124,14 +124,14 @@ elif [[ "$tarfile" != "" ]];then
     source_pack='~/jadelet.source.tar.gz'
 fi
 
-id
-hostname
 workspace="~/Dev/src/jadelet"
 
-ssh ${remote_account}@${remote_host} <<!
-hostname
+ssh -tt ${remote_account}@${remote_host} <<!
 
-echo "workspace =" $workspace
+echo "=============================arrived remote device=============================="
+id
+hostname
+echo "workspace = " $workspace
 # clear and re-establish the workplace
 if [[ "$source_pack" != "" ]];then
     ls -l $source_pack
@@ -215,6 +215,7 @@ if [[ "$cmd" == "push" || "$cmd" == "build-and-push" ]];then
 fi
 fi
 
-echo "done"
+echo "done on remote device"
+echo "===========================Leaving remote device========================"
 exit
 !
