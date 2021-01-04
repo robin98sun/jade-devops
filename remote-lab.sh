@@ -104,6 +104,7 @@ cd ~/Dev/src/jadelet
     --agents ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.json \
              ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.json \
              ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.json \
     --env-dir ./jade-devops/deployments/lab/env \
     --version ${version}
 !
