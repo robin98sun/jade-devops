@@ -49,8 +49,9 @@ def apply(obj, append=False):
   content = content.replace("!!##@@##!!", "")
   # content = content.replace("'", '"')
   if args.print:
-    print("\ndeployment file content:\n")
-    print(content)
+    # print("\ndeployment file content:\n")
+    # print(content)
+    pass
     
   filepath = "./tmp_jade_deployment."+ str(time.time()) +".yaml"
   if args.deployment_file is not None:
