@@ -13,7 +13,6 @@ if [[ "$cmd" != "reuse" ]];then
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
 
-
     # git commit 
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui
 

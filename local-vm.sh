@@ -5,6 +5,11 @@ version=$1
 cmd=$2
 
 if [[ "$cmd" != "reuse" ]];then
+    # export version to modules
+    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton ; do
+        echo '{ "version": "'${version}'" }' > ${f}/version.json
+    done
+
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui
 
     echo "save source code to git repository"
