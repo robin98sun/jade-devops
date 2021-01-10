@@ -1,7 +1,7 @@
 {
   "nodes": {
       "raspberry2": {
-          "hostname": "192.168.57.14",
+          "hostname": "raspberry2",
           "address": "192.168.57.14"
       }
   },
