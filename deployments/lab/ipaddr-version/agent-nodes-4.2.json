@@ -1,11 +1,11 @@
 {
     "nodes": {
-        "aces-diamonds-ace": {
-            "hostname": "129.107.206.131",
-            "address": "129.107.206.131",
-            "port": 32368
+        "aces-pi-24": {
+            "hostname": "129.107.206.137",
+            "address": "129.107.206.137",
+            "port": 30710
         }
-    },
+    }, 
     "capacity": {
         "cpu": 2000,
         "ram": 1000,
@@ -13,13 +13,13 @@
         "bandwidth": 1000
     },
     "capabilities": {
-        "master_id": "1",
-        "location": ":static://SF",
+        "agent_id": "14",
+        "location": ":static://LA",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",
         "current_temperature": "get:http://176.0.0.3/temperature",
         "VIDEOSTREAM_URL": "get:http://176.0.0.1:8888/video_stream"
     },
-    "image": "robin98/jadelet:0.4.0-amd64",
-    "token": "oUcflyC2rSW1ul0bKeNMp4090Jqg6cfy8GNzgmBABaawO6ZvuA1Bq8hcr3SaecZHr3tAp0Kaxyje8oAo"
+    "image": "robin98/jadelet:0.4.1-arm32",
+    "token": "xjigpgAFcoKYXT0Pc4lvovUbjcs1RzNOMHwYjesw57ZdLqHoZu7KCLwraezsf5vSHV37HUmLJmDyCXx8"
 }

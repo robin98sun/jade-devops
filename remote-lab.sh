@@ -100,10 +100,22 @@ kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete se
 cd ~/Dev/src/jadelet
 ./jade-devops/speed-deploy-by-config.py \
     --master ./jade-devops/deployments/lab/ipaddr-version/master-node.json \
-    --agents ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.json \
+    --agents ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.4.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.4.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.4.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.4.json \
     --env-dir ./jade-devops/deployments/lab/env \
     --version ${version}
 !

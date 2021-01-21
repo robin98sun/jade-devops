@@ -1,19 +1,5 @@
 {
     "nodes": {
-        "aces-pi-13": {
-            "hostname": "129.107.206.63",
-            "address": "129.107.206.63",
-            "port": 31853
-        },
-        "aces-pi-23": {
-            "hostname": "129.107.206.133",
-            "address": "129.107.206.133",
-            "port": 32188
-        },
-        "aces-pi-33": {
-            "hostname": "129.107.206.126",
-            "address": "129.107.206.126"
-        },
         "aces-pi-43": {
             "hostname": "129.107.206.120",
             "address": "129.107.206.120"
@@ -26,6 +12,7 @@
         "bandwidth": 1000
     },
     "capabilities": {
+        "agent_id": "12",
         "location": ":static://DAL",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",

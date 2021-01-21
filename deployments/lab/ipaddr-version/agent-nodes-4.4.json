@@ -1,18 +1,5 @@
 {
     "nodes": {
-        "aces-pi-24": {
-            "hostname": "129.107.206.137",
-            "address": "129.107.206.137",
-            "port": 30710
-        },
-        "aces-pi-14": {
-            "hostname": "129.107.206.130",
-            "address": "129.107.206.130"
-        },
-        "aces-pi-34": {
-            "hostname": "129.107.206.123",
-            "address": "129.107.206.123"
-        },
         "aces-pi-44": {
             "hostname": "129.107.206.118",
             "address": "129.107.206.118"
@@ -25,6 +12,7 @@
         "bandwidth": 1000
     },
     "capabilities": {
+        "agent_id": "16",
         "location": ":static://LA",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",
