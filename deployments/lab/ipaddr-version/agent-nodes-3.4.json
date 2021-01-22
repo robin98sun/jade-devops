@@ -12,7 +12,7 @@
         "bandwidth": 1000
     },
     "capabilities": {
-        "agent_id": "12",
+        "agent_id": ":static://12",
         "location": ":static://DAL",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",

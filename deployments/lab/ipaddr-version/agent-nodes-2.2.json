@@ -13,7 +13,7 @@
         "bandwidth": 1000
     },
     "capabilities": {
-        "agent_id": "6",
+        "agent_id": ":static://6",
         "location": ":static://NY",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",
