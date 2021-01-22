@@ -12,7 +12,7 @@
         "bandwidth": 1000
     },
     "capabilities": {
-        "agent_id": ":static://3",
+        "agent_id": ":static://agent3",
         "location": ":static://LA",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",
