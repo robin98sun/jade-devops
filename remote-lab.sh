@@ -124,3 +124,9 @@ cd ~/Dev/src/jadelet
     --env-dir ./jade-devops/deployments/lab/env \
     --version ${version}
 !
+
+
+# copy test scripts onto cluster
+mv ./jade-tests/sim-v2/traces ./jade-tests/
+scp -r ./jade-tests/sim-v2 robin@aces-diamonds-ace:~/
+mv ./jade-tests/traces ./jade-tests/sim-v2/traces
