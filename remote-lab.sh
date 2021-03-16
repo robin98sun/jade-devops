@@ -9,7 +9,7 @@ cmd=$4
 
 if [[ "$cmd" != "reuse" ]];then
     # export version to modules
-    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton ; do
+    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v2; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
 
@@ -56,11 +56,17 @@ if [[ "$cmd" != "reuse" ]];then
     echo "building UI"
     npm run build
 
+    cd ../jade-tests
+    git add .
+    git commit -m "version: $version"
+    git tag -a v$version -m "version: $version"
+    git push origin master
+
     cd ..
     echo "packing source code"
 
-    cp -r jade-ui/build jade-go/ui
-    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops
+    cp -r jade-ui/build jade-go/ui 
+    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/sim-v2
 
 fi
 
@@ -99,23 +105,22 @@ kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete se
 # deploy jade
 cd ~/Dev/src/jadelet
 ./jade-devops/speed-deploy-by-config.py \
-    --master ./jade-devops/deployments/lab/ipaddr-version/master-node.json \
-    --agents ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.1.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.2.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.3.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-1.4.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.1.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.2.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.3.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-2.4.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.1.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.2.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.3.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-3.4.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.1.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.2.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.3.json \
-             ./jade-devops/deployments/lab/ipaddr-version/agent-nodes-4.4.json \
+    --master ./jade-devops/deployments/lab/ipaddr-version-15/master-node.json \
+    --agents ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-1.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-1.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-1.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-1.4.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-2.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-2.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-2.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-2.4.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-3.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-3.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-3.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-4.1.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-4.2.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-4.3.json \
+             ./jade-devops/deployments/lab/ipaddr-version-15/agent-nodes-4.4.json \
     --env-dir ./jade-devops/deployments/lab/env \
     --version ${version}
 !
