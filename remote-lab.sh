@@ -2,12 +2,12 @@
 
 # this is only a batch script for building images on the cluster of lab
 # password of docker-registry
-registry=$1
-password=$2
-version=$3
-cmd=$4
+cmd=$1
+version=$2
+registry=$3
+password=$4
 
-if [[ "$cmd" != "reuse" ]];then
+if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v2; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
@@ -68,28 +68,27 @@ if [[ "$cmd" != "reuse" ]];then
     cp -r jade-ui/build jade-go/ui 
     tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/sim-v2
 
-fi
-
-echo "build on the remote servers"
-if [[ "$cmd" != "reuse" ]]; then
     cmd="build-and-push"
 fi
 
-./jade-devops/remote-build.sh \
-    aces-diamonds-ace robin \
-    aces-pi-11 pi \
-    ./jadelet.source.tar.gz \
-    $cmd \
-    ${registry} ${version}-arm32 \
-    ${password}
+if [[ "$cmd" != "reboot" ]]; then
+    echo "build on the remote servers"
+    ./jade-devops/remote-build.sh \
+        aces-diamonds-ace robin \
+        aces-pi-11 pi \
+        ./jadelet.source.tar.gz \
+        $cmd \
+        ${registry} ${version}-arm32 \
+        ${password}
 
-./jade-devops/remote-build.sh \
-    none none \
-    aces-diamonds-ace robin \
-    ./jadelet.source.tar.gz \
-    reuse \
-    ${registry} ${version}-amd64 \
-    ${password}
+    ./jade-devops/remote-build.sh \
+        none none \
+        aces-diamonds-ace robin \
+        ./jadelet.source.tar.gz \
+        reuse \
+        ${registry} ${version}-amd64 \
+        ${password}
+fi
 
 echo "deploy on the cluster master"
 ssh robin@aces-diamonds-ace <<!
