@@ -127,6 +127,5 @@ cd ~/Dev/src/jadelet
 
 
 # copy test scripts onto cluster
-mv ./jade-tests/sim-v2/traces ./jade-tests/
-scp -r ./jade-tests/sim-v2 robin@aces-diamonds-ace:~/
-mv ./jade-tests/traces ./jade-tests/sim-v2/traces
+scp ./jade-tests/sim-v2/*.py robin@aces-diamonds-ace:~/sim-v2
+scp ./jade-tests/sim-v2/*.sh robin@aces-diamonds-ace:~/sim-v2
