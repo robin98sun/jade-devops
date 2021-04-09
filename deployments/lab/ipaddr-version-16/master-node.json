@@ -7,7 +7,7 @@
         }
     },
     "capacity": {
-        "cpu": 2000,
+        "cpu": 4000,
         "ram": 4000,
         "disk": 1000,
         "bandwidth": 1000
