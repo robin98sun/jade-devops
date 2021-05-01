@@ -115,7 +115,6 @@ cd ~/Dev/src/jadelet
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.2.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.3.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.4.json \
-             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.1.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.2.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.3.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.4.json \
