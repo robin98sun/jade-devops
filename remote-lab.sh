@@ -7,6 +7,8 @@ version=$2
 registry=$3
 password=$4
 
+deployment_config_directory='ethernet-15'
+
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v2; do
@@ -94,33 +96,33 @@ echo "deploy on the cluster master"
 ssh robin@aces-diamonds-ace <<!
 # delete jade
 echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
-kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods
+kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
 # delete app pods
 echo "kubectl get deployments|grep app-jade|awk '{print \$1}'|xargs kubectl delete deployments"
-kubectl get deployments|grep app-jade|awk '{print \$1}'|xargs kubectl delete deployments
+kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 --force
 # delete app services
 echo "kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services"
 kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services
 # deploy jade
 cd ~/Dev/src/jadelet
 ./jade-devops/speed-deploy-by-config.py \
-    --master ./jade-devops/deployments/lab/ethernet-16/master-node.json \
-    --agents ./jade-devops/deployments/lab/ethernet-16/agent-nodes-1.1.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-1.2.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-1.3.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-1.4.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-2.1.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-2.2.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-2.3.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-2.4.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-3.1.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-3.2.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-3.3.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-3.4.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-4.1.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-4.2.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-4.3.json \
-             ./jade-devops/deployments/lab/ethernet-16/agent-nodes-4.4.json \
+    --master ./jade-devops/deployments/lab/$deployment_config_directory/master-node.json \
+    --agents ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.1.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.2.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.3.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.4.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.1.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.2.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.3.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.4.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.1.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.2.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.3.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.4.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.1.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.2.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.3.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.4.json \
     --env-dir ./jade-devops/deployments/lab/env \
     --version ${version}
 !

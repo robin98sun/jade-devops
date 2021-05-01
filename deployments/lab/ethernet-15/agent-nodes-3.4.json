@@ -1,21 +1,18 @@
 {
     "nodes": {
-        "aces-pi-11": {
-            "hostname": "aces-pi-11",
-            "address": "129.107.206.161"
-        },
-        "aces-pi-23": {
-            "hostname": "aces-pi-23",
-            "address": "129.107.206.93"
+        "aces-pi-34": {
+            "hostname": "129.107.206.83",
+            "address": "129.107.206.83"
         }
     }, 
     "capacity": {
-        "cpu": 2000,
-        "ram": 1000,
+        "cpu": 500,
+        "ram": 200,
         "disk": 1000,
         "bandwidth": 1000
     },
     "capabilities": {
+        "agent_id": ":static://agent11",
         "location": ":static://LA",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",

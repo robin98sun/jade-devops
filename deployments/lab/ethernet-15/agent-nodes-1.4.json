@@ -1,27 +1,24 @@
 {
     "nodes": {
-        "aces-pi-22": {
-            "hostname": "aces-pi-22",
-            "address": "129.107.206.94"
-        },
-        "aces-pi-12": {
-            "hostname": "aces-pi-12",
-            "address": "129.107.206.162"
+        "aces-pi-14": {
+            "hostname": "129.107.206.74",
+            "address": "129.107.206.74"
         }
     }, 
     "capacity": {
-        "cpu": 2000,
-        "ram": 1000,
+        "cpu": 500,
+        "ram": 200,
         "disk": 1000,
         "bandwidth": 1000
     },
     "capabilities": {
-        "location": ":static://NY",
+        "agent_id": ":static://agent4",
+        "location": ":static://LA",
         "accuracy": ":static://city",
         "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",
         "current_temperature": "get:http://176.0.0.3/temperature",
         "VIDEOSTREAM_URL": "get:http://176.0.0.1:8888/video_stream"
     },
     "image": "robin98/jadelet:0.4.1-arm32",
-    "token": "5gWM1hHbKrnGRNkuaqnvpWwTAXvFAI73x1xqOeVsxvrfovCdnm5yLNlvHkyUWcle6OCUf4qTFkqxOPDV"
+    "token": "xjigpgAFcoKYXT0Pc4lvovUbjcs1RzNOMHwYjesw57ZdLqHoZu7KCLwraezsf5vSHV37HUmLJmDyCXx8"
 }
