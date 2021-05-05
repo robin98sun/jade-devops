@@ -7,7 +7,7 @@ version=$2
 registry=$3
 password=$4
 
-deployment_config_directory='ethernet-15'
+deployment_config_directory='ethernet-16'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     # export version to modules
@@ -115,6 +115,7 @@ cd ~/Dev/src/jadelet
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.2.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.3.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.4.json \
+             ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.1.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.2.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.3.json \
              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.4.json \
