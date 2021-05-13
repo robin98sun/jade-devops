@@ -178,7 +178,6 @@ if [[ "$cmd" == "build" || "$cmd" == "build-and-push" ]];then
     echo "building jade-go"
     go install
     if [[ \$? != 0 ]];then exit; fi
-
     go build -o app
     if [[ \$? != 0 ]];then exit; fi
 
@@ -186,8 +185,14 @@ if [[ "$cmd" == "build" || "$cmd" == "build-and-push" ]];then
     echo "building plankton"
     go install
     if [[ \$? != 0 ]];then exit; fi
-
     go build -o plankton
+    if [[ \$? != 0 ]];then exit; fi
+
+    cd $workspace/jade-app-temp-hum
+    echo "building jade-app-temp-hum"
+    go install
+    if [[ \$? != 0 ]];then exit; fi
+    go build -o jade-app
     if [[ \$? != 0 ]];then exit; fi
 
     echo "source code has been built"
@@ -210,6 +215,12 @@ if [[ "$cmd" == "push" || "$cmd" == "build-and-push" ]];then
     sudo docker image build --tag ${registry}/plankton:${tag} .
     if [[ \$? != 0 ]];then exit; fi
     sudo docker push ${registry}/plankton:${tag}
+    if [[ \$? != 0 ]];then exit; fi
+
+    cd $workspace/jade-app-temp-hum
+    sudo docker image build --tag ${registry}/jade-app-temp-hum:${tag} .
+    if [[ \$? != 0 ]];then exit; fi
+    sudo docker push ${registry}/jade-app-temp-hum:${tag}
     if [[ \$? != 0 ]];then exit; fi
 fi
 fi

@@ -11,12 +11,12 @@ deployment_config_directory='ethernet-16'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     # export version to modules
-    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v2; do
+    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v2 jade-app-temp-hum; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
 
     # git commit 
-    rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui
+    rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui jade-app-temp-hum/jade-app
 
     echo "save source code to git repository"
     cd jade-go
@@ -32,6 +32,12 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     git push origin master
 
     cd ../plankton
+    git add .
+    git commit -m "version: $version"
+    git tag -a v$version -m "version: $version"
+    git push origin master
+
+    cd ../jade-app-temp-hum
     git add .
     git commit -m "version: $version"
     git tag -a v$version -m "version: $version"
@@ -68,7 +74,7 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     echo "packing source code"
 
     cp -r jade-ui/build jade-go/ui 
-    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/sim-v2
+    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/sim-v2 jade-app-temp-hum
 
     cmd="build-and-push"
 fi
