@@ -12,13 +12,13 @@
         "bandwidth": 1000
     },
     "capabilities": {
-        "agent_id": ":static://agent10",
-        "location": ":static://NY",
-        "accuracy": ":static://city",
-        "avg_temperature": "get:http://176.0.0.3/temperature:timespan=int",
-        "current_temperature": "get:http://176.0.0.3/temperature",
-        "VIDEOSTREAM_URL": "get:http://176.0.0.1:8888/video_stream",
-        "jade-app-temp-hum": "post:http://129.107.206.105:30000"
+        "agent_id": ";value://agent10",
+        "location": ";value://NY",
+        "accuracy": ";value://city",
+        "avg_temperature": "get;http://176.0.0.3/temperature;timespan=int",
+        "current_temperature": "get;http://176.0.0.3/temperature",
+        "VIDEOSTREAM_URL": "get;http://176.0.0.1:8888/video_stream",
+        "jade-app-temp-hum": "post;http://129.107.206.105:30000"
     },
     "image": "robin98/jadelet:0.4.1-arm32",
     "token": "5gWM1hHbKrnGRNkuaqnvpWwTAXvFAI73x1xqOeVsxvrfovCdnm5yLNlvHkyUWcle6OCUf4qTFkqxOPDV"
