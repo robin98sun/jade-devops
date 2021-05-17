@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 # this is only a batch script for building images on the devops-server of local VMs
-version=$1
-cmd=$2
+
+cmd=$1
+version=$2
 
 if [[ "$cmd" != "reuse" ]];then
     # export version to modules
