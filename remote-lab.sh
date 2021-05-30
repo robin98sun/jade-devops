@@ -9,7 +9,7 @@ password=$4
 
 deployment_config_directory='ethernet-16'
 
-if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
+if [[ "$cmd" != "reuse" && "$cmd" != "reboot"  && "$cmd" != "stop" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v2 jade-app-temp-hum; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
@@ -79,7 +79,7 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot" ]];then
     cmd="build-and-push"
 fi
 
-if [[ "$cmd" != "reboot" ]]; then
+if [[ "$cmd" != "reboot" && "$cmd" != "stop" ]]; then
     echo "build on the remote servers"
     ./jade-devops/remote-build.sh \
         aces-diamonds-ace robin \
@@ -109,6 +109,10 @@ kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deploym
 # delete app services
 echo "kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services"
 kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services
+
+if [[ "$cmd" == "stop" ]];then
+    exit 0
+fi
 # deploy jade
 cd ~/Dev/src/jadelet
 ./jade-devops/speed-deploy-by-config.py \
@@ -133,6 +137,9 @@ cd ~/Dev/src/jadelet
     --version ${version}
 !
 
+if [[ "$cmd" == "stop" ]];then
+    exit 0
+fi
 
 # copy test scripts onto cluster
 scp ./jade-tests/sim-v2/*.py robin@aces-diamonds-ace:~/sim-v2
