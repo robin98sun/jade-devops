@@ -156,7 +156,7 @@ if [[ "$cmd" != "addon" ]];then
     scp ./jade-tests/sim-v2/*.json robin@aces-diamonds-ace:~/sim-v2
 fi
 
-if [[ "$cmd" == "build-and-push" || "$cmd" == "addon" ]];then
+if [[ "$cmd" == "addon" ]];then
     echo "deploy addons on master node"
     ./jade-devops/deploy-addons.sh robin aces-diamonds-ace
     echo ""
