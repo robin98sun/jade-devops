@@ -23,7 +23,8 @@
         "jade-app-temp-hum_db_name": ";value://tempsdb",
         "jade-app-temp-hum_db_user": ";value://aces",
         "jade-app-temp-hum_db_port": ";value://3306",
-        "jade-app-temp-hum_db_host": ";value://129.107.206.111"
+        "jade-app-temp-hum_db_host": ";value://129.107.206.111",
+        "jade-addon-env-metrics": "get:http://129.107.206.111:8765/metrics"
     },
     "image": "robin98/jadelet:0.4.1-arm32",
     "token": "xjigpgAFcoKYXT0Pc4lvovUbjcs1RzNOMHwYjesw57ZdLqHoZu7KCLwraezsf5vSHV37HUmLJmDyCXx8"
