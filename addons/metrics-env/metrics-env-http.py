@@ -54,6 +54,10 @@ metrics_inst = {
     "PROCS": {
         "r": 0,
         "b": 0,
+    },
+    "VOLTAGE": {
+        "core": 0,
+        "sdram": 0,
     }
 }
 
@@ -67,6 +71,24 @@ def exec_cmd(cmd:str):
         return stdout, stderr, retcode
     except Exception as e:
         return "", "", -999
+
+def populate_voltage(metrics):
+    voltage_core = 0
+    voltage_sdram = 0
+
+    text, _, retcode = exec_cmd("vcgencmd measure_volts core")
+    if retcode != 0:
+        return
+    voltage_core = float(text.split("=")[1].split("V")[0])
+
+    text, _, retcode = exec_cmd("vcgencmd measure_volts sdram_c")
+    if retcode != 0:
+        return
+    voltage_sdram = float(text.split("=")[1].split("V")[0])
+
+    metrics["VOLTAGE"]["core"] = voltage_core
+    metrics["VOLTAGE"]["sdram"] = voltage_sdram
+
 
 def populate_frequency(metrics, device_info):
     cpu_curr_freq = 0
@@ -182,6 +204,8 @@ def read_metrics(metrics, device_info):
         populate_vmstat(metrics)
         # temperature 
         populate_temperatures(metrics, device_info)
+        # voltage
+        populate_voltage(metrics)
         sleep(0.1)
 
 t = Thread(target=read_metrics, args=(metrics_inst, device_info_inst, ))
