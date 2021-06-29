@@ -48,30 +48,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '--updating-config-instead-of-deploying', type=str, required=False, 
+    '--partial-deployment', type=str, required=False, default='all',
     choices=['master', 'agent', 'all'],
     help='to update configurations for master or agents or all of them, and do not perform fresh deployments for them'
 )
 
 args = parser.parse_args()
 
-# Read configurations
-def read_json_file(filename):
-    with open(filename) as f:
-        conf = json.load(f)
-    return conf
-
-master_conf = read_json_file(args.master)
-agents = []
-if args.agents is not None and len(args.agents) > 0:
-    for agent in args.agents:
-        agent_conf = read_json_file(agent)
-        agents.append(agent_conf)
-
-# Generate environment files
-# create env dir if needed
-if args.env_dir is not None:
-    os.system("mkdir -p "+args.env_dir)
 
 alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
 def random_token(length):
@@ -80,6 +63,17 @@ def random_token(length):
     for _ in range(length):
         token += alphabet[random.randint(0, len(alphabet)-1)]
     return token 
+
+def update_version(image, version):
+    if version is None:
+        return image
+    start = 0
+    end = None
+    if ':' in image:
+        start = image.index(':')
+    if '-' in image:
+        end = image.index('-')
+    return image.replace(image[start+1:end], version)
 
 def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_agent = None):
     master = None
@@ -155,28 +149,40 @@ def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_a
     else:
         return None
 
+# Read configurations
+def read_json_file(filename):
+    with open(filename) as f:
+        conf = json.load(f)
+    return conf
+
+master_conf = read_json_file(args.master)
+agents = []
+if args.agents is not None and len(args.agents) > 0:
+    for agent in args.agents:
+        agent_conf = read_json_file(agent)
+        agents.append(agent_conf)
+
+# Generate environment files
+# create env dir if needed
+if args.env_dir is not None:
+    os.system("mkdir -p "+args.env_dir)
+
+
 master_token=gen_env(args.version, None, master_conf, master_conf["token"], master_conf["token"])
 
 for agent_conf in agents: 
     gen_env(args.version, master_conf, agent_conf, master_token, agent_conf["token"])
-
-def update_version(image, version):
-    if version is None:
-        return image
-    start = 0
-    end = None
-    if ':' in image:
-        start = image.index(':')
-    if '-' in image:
-        end = image.index('-')
-    return image.replace(image[start+1:end], version)
 
 # Deploy cluster
 current_dir = os.path.dirname(os.path.abspath(__file__))
 deploy_script = current_dir+'/speed-deploy.sh'
 if os.path.exists(deploy_script):
     print("deploying:")
-    agents.append(master_conf)
+    if args.partial_deployment == 'all':
+        agents.insert(0, master_conf)
+    elif args.partial_deployment == 'master':
+        agents = [master_conf]
+
     for conf in agents:
         if "nodes" in conf and "image" in conf:
             image = conf["image"]
