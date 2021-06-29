@@ -11,6 +11,10 @@ if [[ "$deployment_config_directory" == "" ]]; then
     deployment_config_directory='ethernet-16'
 fi
 
+env_dir=./jade-devops/deployments/lab/env
+rm -rf ${env_dir}
+mkdir -p ${env_dir}
+
 # tier2:
 # sub-cluster1 of cluster2: 1-tier cluster with 3 leaves
 ./jade-devops/speed-deploy-by-config.py \
@@ -18,7 +22,7 @@ fi
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.1.json \
-    --env-dir ./jade-devops/deployments/lab/env \
+    --env-dir ${env_dir} \
     --version ${version}
 
 # sub-cluster2 of cluster2: 1-tier cluster with 3 leaves
@@ -27,7 +31,7 @@ fi
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.2.json \
-    --env-dir ./jade-devops/deployments/lab/env \
+    --env-dir ${env_dir} \
     --version ${version}
 
 # tier1
@@ -36,7 +40,7 @@ fi
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.2.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.4.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
-    --env-dir ./jade-devops/deployments/lab/env \
+    --env-dir ${env_dir} \
     --version ${version}
 
 # cluster1: 1-tier cluster with 6 leaves
@@ -48,7 +52,7 @@ fi
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.4.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.3.json \
-    --env-dir ./jade-devops/deployments/lab/env \
+    --env-dir ${env_dir} \
     --version ${version}
 
 # top tier (tier0)
@@ -56,5 +60,5 @@ fi
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.2.json \
-    --env-dir ./jade-devops/deployments/lab/env \
+    --env-dir ${env_dir} \
     --version ${version}

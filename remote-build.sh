@@ -151,8 +151,8 @@ fi
 
 ls -l $workspace
 
-if [[ "$cmd" == "" || "$cmd" == "copy" ]];then
-    echo "copying to remote is done"
+if [[ "$cmd" == "" || "$cmd" == "save" ]];then
+    echo "repository has been saved to remote"
     exit
 fi
 

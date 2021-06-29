@@ -83,26 +83,39 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     cp -r jade-ui/build jade-go/ui 
     tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/sim-v2 jade-app-temp-hum
 
-    cmd="build-and-push"
+    if [[ "$cmd" != "devops" ]];then
+        cmd="build-and-push"
+    fi
 fi
 
-if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" ]]; then
+if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" ]]; then
     echo "build on the remote servers"
-    ./jade-devops/remote-build.sh \
-        aces-diamonds-ace robin \
-        aces-pi-11 pi \
-        ./jadelet.source.tar.gz \
-        $cmd \
-        ${registry} ${version}-arm32 \
-        ${password}
+    if [[ "$ccmd" != "devops" ]];then
+        ./jade-devops/remote-build.sh \
+            aces-diamonds-ace robin \
+            aces-pi-11 pi \
+            ./jadelet.source.tar.gz \
+            $cmd \
+            ${registry} ${version}-arm32 \
+            ${password}
+    fi
 
+    remote_cmd="reuse"    
+    if [[ "$cmd" == "devops" ]];then
+        remote_cmd="save"
+    fi
     ./jade-devops/remote-build.sh \
         none none \
         aces-diamonds-ace robin \
         ./jadelet.source.tar.gz \
-        reuse \
+        ${remote_cmd} \
         ${registry} ${version}-amd64 \
         ${password}
+fi
+
+if [[ "$cmd" == "devops" ]];then
+    echo "DevOps has been copied to remote cluster"
+    exit 0
 fi
 
 if [[ "$cmd" != "addon" ]];then
@@ -128,26 +141,6 @@ if [[ "$cmd" != "addon" ]];then
             cd ~/Dev/src/jadelet
             chmod u+x ${scheme_deployment_cmd}
             ${scheme_deployment_cmd} ${version} ${deployment_config_directory}
-            # ./jade-devops/speed-deploy-by-config.py \
-            #     --master ./jade-devops/deployments/lab/$deployment_config_directory/master-node.json \
-            #     --agents ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.1.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.2.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.3.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-1.4.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.1.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.2.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.3.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-2.4.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.1.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.2.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.3.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-3.4.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.1.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.2.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.3.json \
-            #              ./jade-devops/deployments/lab/$deployment_config_directory/agent-nodes-4.4.json \
-            #     --env-dir ./jade-devops/deployments/lab/env \
-            #     --version ${version}
         fi
 !
 fi

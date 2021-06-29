@@ -11,6 +11,10 @@ if [[ "$deployment_config_directory" == "" ]]; then
     deployment_config_directory='ethernet-16'
 fi
 
+env_dir=./jade-devops/deployments/lab/env
+rm -rf ${env_dir}
+mkdir -p ${env_dir}
+
 ./jade-devops/speed-deploy-by-config.py \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
@@ -29,5 +33,5 @@ fi
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
-    --env-dir ./jade-devops/deployments/lab/env \
+    --env-dir ${env_dir} \
     --version ${version}
