@@ -52,23 +52,6 @@ mkdir -p ${env_dir}
     --version ${version} \
     --partial-deployment 'agent'
 
-# tier2:
-# sub-cluster1 of cluster2: 1-tier cluster with 3 leaves
-./jade-devops/speed-deploy-by-config.py \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.4.json \
-    --agents 
-    --env-dir ${env_dir} \
-    --version ${version} \
-    --partial-deployment 'agent'
-
-# sub-cluster2 of cluster2: 1-tier cluster with 3 leaves
-./jade-devops/speed-deploy-by-config.py \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
-    --agents 
-    --env-dir ${env_dir} \
-    --version ${version} \
-    --partial-deployment 'agent'
-
 
 
 
