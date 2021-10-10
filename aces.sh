@@ -97,7 +97,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
             aces-pi-11 pi \
             ./jadelet.source.tar.gz \
             $cmd \
-            ${registry} ${version}:arm32 \
+            ${registry} ${version}\|arm32 \
             ${password}
     fi
 
@@ -110,7 +110,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
         aces-diamonds-ace robin \
         ./jadelet.source.tar.gz \
         ${remote_cmd} \
-        ${registry} ${version}:amd64 \
+        ${registry} ${version}\|amd64 \
         ${password}
 fi
 
