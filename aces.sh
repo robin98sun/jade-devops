@@ -124,7 +124,7 @@ if [[ "$cmd" != "addon" ]];then
     ssh robin@aces-diamonds-ace <<!
         # delete jade
         echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
-        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
+        kubectl get pods|grep jade|awk '{print \\$1}'|xargs kubectl delete pods --grace-period=0 --force
         # delete app pods
         echo "kubectl get deployments|grep app-jade|awk '{print \$1}'|xargs kubectl delete deployments"
         kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 --force
