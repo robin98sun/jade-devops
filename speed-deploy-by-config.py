@@ -67,18 +67,14 @@ def random_token(length):
 def update_version(image, version, isa):
     if version is None:
         return image
-    start = 0
+    result = image
     if ':' in image:
         start = image.index(':')
-
-    end = image.find('|', start+1)
-    result = image
-    if end > 0:
-        result = image.replace(image[start+1:end], version)
-        result = result.replace(image[end+1:], isa)
+        result = image.replace(image[start:], ":"+version)
+        result += "--" + isa
     else:
-        result = image.replace(image[start+1:], version)
-        result += "|" + isa
+        result += ":" + version + "--" + isa
+
     return result
 
 def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_agent = None):
