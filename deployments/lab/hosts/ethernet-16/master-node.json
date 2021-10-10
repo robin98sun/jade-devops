@@ -21,6 +21,6 @@
         "jade-addon-env-metrics": "get;http://129.107.206.131:8765/metrics"
     },
     "isa": "amd64",
-    "image": "robin98/jadelet:0.4.0:amd64",
+    "image": "robin98/jadelet:version",
     "token": "oUcflyC2rSW1ul0bKeNMp4090Jqg6cfy8GNzgmBABaawO6ZvuA1Bq8hcr3SaecZHr3tAp0Kaxyje8oAo"
 }
