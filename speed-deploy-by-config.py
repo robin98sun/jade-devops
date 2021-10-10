@@ -64,16 +64,22 @@ def random_token(length):
         token += alphabet[random.randint(0, len(alphabet)-1)]
     return token 
 
-def update_version(image, version):
+def update_version(image, version, isa):
     if version is None:
         return image
     start = 0
-    end = None
     if ':' in image:
         start = image.index(':')
-    if '-' in image:
-        end = image.index('-')
-    return image.replace(image[start+1:end], version)
+
+    end = image.find(':', start+1)
+    result = image
+    if end > 0:
+        result = image.replace(image[start+1:end], version)
+        result = result.replace(image[end:], isa)
+    else:
+        result = image.replace(image[start+1:], version)
+        result += ":" + isa
+    return result
 
 def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_agent = None):
     master = None
@@ -123,6 +129,8 @@ def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_a
             if "port" in master:
                 content.append('JADE_UPPERNODE_PORT='+str(master["port"]))
 
+        if "isa" in agent_conf:
+            content.append('JADE_JADELET_ISA='+str(agent_conf["isa"]))
         if "capacity" in agent_conf:
             if "cpu" in agent_conf["capacity"]:
                 content.append('JADE_CAPACITY_CPU='+str(agent_conf["capacity"]["cpu"]))
@@ -184,9 +192,10 @@ if os.path.exists(deploy_script):
         agents = [master_conf]
 
     for conf in agents:
-        if "nodes" in conf and "image" in conf:
+        if "nodes" in conf and "image" in conf and "isa" in conf:
             image = conf["image"]
-            image = update_version(image, args.version)
+            isa = conf["isa"]
+            image = update_version(image, args.version, isa)
             for node in conf["nodes"]:
                 cmd = deploy_script + ' ' + node + ' ' + image
                 cmd += ' ' + args.env_dir + '/' + node + '.txt' 

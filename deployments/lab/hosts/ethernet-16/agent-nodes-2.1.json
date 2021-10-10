@@ -26,6 +26,7 @@
         "jade-app-temp-hum_db_host": ";value://129.107.206.104",
         "jade-addon-env-metrics": "get;http://129.107.206.104:8765/metrics"
     },
-    "image": "robin98/jadelet:0.4.1-arm32",
+    "isa": "arm32",
+    "image": "robin98/jadelet:0.4.1:arm32",
     "token": "xjigpgAFcoKYXT0Pc4lvovUbjcs1RzNOMHwYjesw57ZdLqHoZu7KCLwraezsf5vSHV37HUmLJmDyCXx8"
 }
