@@ -71,14 +71,14 @@ def update_version(image, version, isa):
     if ':' in image:
         start = image.index(':')
 
-    end = image.find(':', start+1)
+    end = image.find('|', start+1)
     result = image
     if end > 0:
         result = image.replace(image[start+1:end], version)
         result = result.replace(image[end+1:], isa)
     else:
         result = image.replace(image[start+1:], version)
-        result += ":" + isa
+        result += "|" + isa
     return result
 
 def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_agent = None):

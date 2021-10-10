@@ -127,10 +127,10 @@ if [[ "$cmd" != "addon" ]];then
         kubectl get pods|grep jade|awk '{print \\$1}'|xargs kubectl delete pods --grace-period=0 --force
         # delete app pods
         echo "kubectl get deployments|grep app-jade|awk '{print \$1}'|xargs kubectl delete deployments"
-        kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 --force
+        kubectl get deployments|grep jade|awk '{print \\$1}'|xargs kubectl delete deployments --grace-period=0 --force
         # delete app services
         echo "kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services"
-        kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services
+        kubectl get services|grep srv-app-jade|awk '{print \\$1}'|xargs kubectl delete services
 
         if [[ "$cmd" == "stop" ]];then
             exit 0
