@@ -75,7 +75,7 @@ def update_version(image, version, isa):
     result = image
     if end > 0:
         result = image.replace(image[start+1:end], version)
-        result = result.replace(image[end:], isa)
+        result = result.replace(image[end+1:], isa)
     else:
         result = image.replace(image[start+1:], version)
         result += ":" + isa
