@@ -95,7 +95,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
     if [[ "$ccmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
             aces-diamonds-ace robin \
-            aces-pi-11 pi \
+            aces-pi-44 pi \
             ./jadelet.source.tar.gz \
             $cmd \
             ${registry} "${version}--arm32" \
