@@ -28,7 +28,6 @@ mkdir -p ${env_dir}
 ./jade-devops/speed-deploy-by-config.py \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.1.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.3.json \
-             ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.4.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.4.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.3.json \
@@ -41,8 +40,8 @@ mkdir -p ${env_dir}
 # cluster2: 2-tier cluster with 2 sub-clusters
 ./jade-devops/speed-deploy-by-config.py \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.2.json \
-    --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
-             ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.2.json \
+    --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.2.json \
+             ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.4.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.2.json \
