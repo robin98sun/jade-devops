@@ -154,9 +154,9 @@ fi
 if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" ]];then
     echo "copy jade-test to master node"
     # copy test scripts onto cluster
-    scp ./jade-tests/sim-v2/*.py robin@aces-diamonds-ace:~/sim-v2
-    scp ./jade-tests/sim-v2/*.sh robin@aces-diamonds-ace:~/sim-v2
-    scp ./jade-tests/sim-v2/*.json robin@aces-diamonds-ace:~/sim-v2
+    scp ./jade-tests/sim-v3/*.py robin@aces-diamonds-ace:~/sim-v3
+    scp ./jade-tests/sim-v3/*.sh robin@aces-diamonds-ace:~/sim-v3
+    scp ./jade-tests/sim-v3/*.json robin@aces-diamonds-ace:~/sim-v3
 fi
 
 if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
