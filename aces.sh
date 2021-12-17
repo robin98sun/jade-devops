@@ -17,6 +17,7 @@ fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
 deployment_config_directory='ethernet-16'
+master_host='aces-diamonds-ace.uta.edu'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" ]];then
     # export version to modules
@@ -94,7 +95,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
     echo "build on the remote servers"
     if [[ "$ccmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
-            aces-diamonds-ace robin \
+            ${master_host} robin \
             aces-pi-44 pi \
             ./jadelet.source.tar.gz \
             $cmd \
@@ -108,7 +109,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
     fi
     ./jade-devops/remote-build.sh \
         none none \
-        aces-diamonds-ace robin \
+        ${master_host} robin \
         ./jadelet.source.tar.gz \
         ${remote_cmd} \
         ${registry} "${version}--amd64" \
@@ -122,7 +123,7 @@ fi
 
 if [[ "$cmd" != "addon" ]];then
     echo "stop existing jade system and jade applications"
-    ssh robin@aces-diamonds-ace <<!
+    ssh robin@${master_host} <<!
         # delete jade
         echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
         kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
@@ -154,14 +155,14 @@ fi
 if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" ]];then
     echo "copy jade-test to master node"
     # copy test scripts onto cluster
-    scp ./jade-tests/sim-v3/*.py robin@aces-diamonds-ace:~/sim-v3
-    scp ./jade-tests/sim-v3/*.sh robin@aces-diamonds-ace:~/sim-v3
-    scp ./jade-tests/sim-v3/*.json robin@aces-diamonds-ace:~/sim-v3
+    scp ./jade-tests/sim-v3/*.py robin@${master_host}:~/sim-v3
+    scp ./jade-tests/sim-v3/*.sh robin@${master_host}:~/sim-v3
+    scp ./jade-tests/sim-v3/*.json robin@${master_host}:~/sim-v3
 fi
 
 if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
     echo "deploy addons on master node"
-    ./jade-devops/deploy-addons.sh robin aces-diamonds-ace
+    ./jade-devops/deploy-addons.sh robin ${master_host}
     echo ""
     for i in {1..4}; do
         for j in {1..4}; do
