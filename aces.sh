@@ -18,6 +18,7 @@ scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deploymen
 
 deployment_config_directory='ethernet-16'
 master_host='aces-diamonds-ace.uta.edu'
+isa_arm_host='aces-pi-44'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" ]];then
     # export version to modules
@@ -96,7 +97,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
     if [[ "$ccmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
             ${master_host} robin \
-            aces-pi-44 pi \
+            ${isa_arm_host} pi \
             ./jadelet.source.tar.gz \
             $cmd \
             ${registry} "${version}--arm32" \
