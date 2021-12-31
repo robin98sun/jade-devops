@@ -18,7 +18,7 @@ scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deploymen
 
 deployment_config_directory='ethernet-16'
 master_host='aces-diamonds-ace.uta.edu'
-isa_arm_host='aces-pi-44'
+isa_arm_host='aces-pi-44.uta.edu'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" ]];then
     # export version to modules
