@@ -19,6 +19,7 @@ scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deploymen
 deployment_config_directory='ethernet-16'
 master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-pi-44.uta.edu'
+test_util='test-framework'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" ]];then
     # export version to modules
@@ -156,9 +157,15 @@ fi
 if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" ]];then
     echo "copy jade-test to master node"
     # copy test scripts onto cluster
-    scp ./jade-tests/sim-v3/*.py robin@${master_host}:~/sim-v3
-    scp ./jade-tests/sim-v3/*.sh robin@${master_host}:~/sim-v3
-    scp ./jade-tests/sim-v3/*.json robin@${master_host}:~/sim-v3
+    scp ./jade-tests/${test_util}/*.py robin@${master_host}:~/${test_util}
+    scp ./jade-tests/${test_util}/*.sh robin@${master_host}:~/${test_util}
+    scp ./jade-tests/${test_util}/*.json robin@${master_host}:~/${test_util}
+    if [[ -d ./jade-tests/${test_util}/bin ]];then
+        scp -r ./jade-tests/${test_util}/bin robin@${master_host}:~/${test_util}
+    fi
+    if [[ -d ./jade-tests/${test_util}/templates ]];then
+        scp -r ./jade-tests/${test_util}/templates robin@${master_host}:~/${test_util}
+    fi
 fi
 
 if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
