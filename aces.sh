@@ -21,7 +21,7 @@ master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-pi-44.uta.edu'
 test_util='test-framework'
 
-if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" ]];then
+if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v3 jade-app-temp-hum; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
@@ -93,7 +93,7 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     fi
 fi
 
-if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" ]]; then
+if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" && "$cmd" != "test-framework" ]]; then
     echo "build on the remote servers"
     if [[ "$ccmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
@@ -123,7 +123,7 @@ if [[ "$cmd" == "devops" ]];then
     exit 0
 fi
 
-if [[ "$cmd" != "addon" ]];then
+if [[ "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
     echo "stop existing jade system and jade applications"
     ssh robin@${master_host} <<!
         # delete jade
@@ -154,18 +154,19 @@ if [[ "$cmd" == "stop" || "$cmd" == "reboot-cluster" ]];then
     exit 0
 fi
 
-if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" ]];then
+if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framework" ]];then
     echo "copy jade-test to master node"
     # copy test scripts onto cluster
-    scp ./jade-tests/${test_util}/*.py robin@${master_host}:~/${test_util}
-    scp ./jade-tests/${test_util}/*.sh robin@${master_host}:~/${test_util}
-    scp ./jade-tests/${test_util}/*.json robin@${master_host}:~/${test_util}
     if [[ -d ./jade-tests/${test_util}/bin ]];then
         scp -r ./jade-tests/${test_util}/bin robin@${master_host}:~/${test_util}
     fi
     if [[ -d ./jade-tests/${test_util}/templates ]];then
         scp -r ./jade-tests/${test_util}/templates robin@${master_host}:~/${test_util}
     fi
+    scp ./jade-tests/${test_util}/*.py robin@${master_host}:~/${test_util}/
+    scp ./jade-tests/${test_util}/*.sh robin@${master_host}:~/${test_util}/
+    scp ./jade-tests/${test_util}/*.json robin@${master_host}:~/${test_util}/
+    
 fi
 
 if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
