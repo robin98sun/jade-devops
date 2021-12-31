@@ -18,12 +18,12 @@ scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deploymen
 
 deployment_config_directory='ethernet-16'
 master_host='aces-diamonds-ace.uta.edu'
-isa_arm_host='aces-pi-44.uta.edu'
+isa_arm_host='aces-pi-44'
 test_util='test-framework'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
     # export version to modules
-    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/sim-v3 jade-app-temp-hum; do
+    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util} jade-app-temp-hum; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
 
@@ -86,7 +86,7 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     echo "packing source code"
 
     cp -r jade-ui/build jade-go/ui 
-    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/sim-v3 jade-app-temp-hum
+    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/${test_util} jade-app-temp-hum
 
     if [[ "$cmd" != "devops" ]];then
         cmd="build-and-push"
