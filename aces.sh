@@ -23,7 +23,7 @@ test_util='test-framework'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
     # export version to modules
-    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util} jade-app-temp-hum; do
+    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-app-temp-hum; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
 
