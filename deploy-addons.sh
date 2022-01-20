@@ -54,6 +54,9 @@ if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
             chmod u+x \${addon_script}
 
             if [[ `ps -ef | grep -e "\${addon_name}" | grep -v "grep" |wc -l|awk '{print \$1}'` -gt 0 ]];then
+                echo "stopping" `ps -ef | grep -e "\${addon_name}" | grep -v "grep" |wc -l|awk '{print \$1}'` "addones"
+                ps -ef | grep -e "\${addon_name}" | grep -v "grep" 
+                echo ""
                 echo "---->stop existing addon script [\${addon_name}]"
                 ps -ef | grep -e "\${addon_name}" | grep -v "grep" | awk '{print \$2}'|xargs kill -9
             fi
