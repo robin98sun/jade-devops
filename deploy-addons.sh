@@ -60,6 +60,8 @@ if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
                 echo "---->stop existing addon script [\${addon_name}]"
                 ps -ef | grep -e "\${addon_name}" | grep -v "grep" | awk '{print \$2}'|xargs kill -9
             fi
+            echo "---->clear logs for addon scripts [\${addon_name}]"
+            > \${addon_log_dir}/\${addon_name}.log
             echo "---->start addon scripts [\${addon_name}]"
             nohup \${addon_script} --port ${port} > \${addon_log_dir}/\${addon_name}.log 2>&1 &
             echo "---->done [\${addon_name}]"

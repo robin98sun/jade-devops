@@ -176,7 +176,7 @@ if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
     for i in {1..4}; do
         for j in {1..4}; do
             echo "deploy addons on pi ${i}${j}"
-            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j} 
+            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
             echo ""
         done
     done
