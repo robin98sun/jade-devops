@@ -158,7 +158,7 @@ if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framewo
     echo "copy jade-test to master node"
     # copy test scripts onto cluster
     if [[ -d ./jade-tests/${test_util}/bin ]];then
-        scp -r ./jade-tests/${test_util}/bin robin@${master_host}:~/${test_util}
+        scp -r ./jade-tests/${test_util}/bin robin@${master_host}:~/${test_util}/bin
     fi
     if [[ -d ./jade-tests/${test_util}/templates ]];then
         scp -r ./jade-tests/${test_util}/templates robin@${master_host}:~/${test_util}
