@@ -150,7 +150,7 @@ if [[ "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
 !
 fi
 
-if [[ "$cmd" == "stop" || "$cmd" == "reboot-cluster" ]];then
+if [[ "$cmd" == "stop" || "$cmd" == "reboot-cluster" || "$cmd" == "reboot-all" ]];then
     exit 0
 fi
 
