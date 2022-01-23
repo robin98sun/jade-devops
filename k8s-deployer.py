@@ -199,6 +199,7 @@ doc = {
       # "jade-owner": "jade",
       "jade-app": args.deployment_name,
       "jade-node": args.target_host,
+      "kubernetes.io/hostname": args.target_host,
     },
     "type": "NodePort",
     "ports": [
