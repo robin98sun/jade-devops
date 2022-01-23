@@ -129,7 +129,8 @@ doc = {
       }
     ],
     "nodeSelector": {
-      "k3s.io/hostname": args.target_host
+      "k3s.io/hostname": args.target_host,
+      "kubernetes.io/hostname": args.target_host,
     }
   }
 }
