@@ -19,7 +19,7 @@ scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deploymen
 
 deployment_config_directory='ethernet-32'
 master_host='aces-diamonds-ace.uta.edu'
-isa_arm_host='aces-pi-11'
+isa_arm_host='aces-pi-44'
 test_util='test-framework'
 
 if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
