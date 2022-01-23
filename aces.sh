@@ -9,14 +9,15 @@ password=$4
 scheme=$5
 
 if [[ "$scheme" == "" ]];then
-    scheme="scheme-1tier-ethernet16"
+    scheme="scheme-1tier-ethernet32"
+    # scheme="scheme-1tier-ethernet16"
     # scheme="scheme-multi_tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet-partial"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
-deployment_config_directory='ethernet-16'
+deployment_config_directory='ethernet-32'
 master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-pi-44'
 test_util='test-framework'
@@ -175,6 +176,15 @@ if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
     echo ""
     for i in {1..4}; do
         for j in {1..4}; do
+            echo "deploy addons on pi ${i}${j}"
+            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
+            echo ""
+        done
+    done
+
+
+    for i in {5..6}; do
+        for j in {0..7}; do
             echo "deploy addons on pi ${i}${j}"
             ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
             echo ""
