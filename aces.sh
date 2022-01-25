@@ -24,7 +24,8 @@ test_util='test-framework'
 
 if [[ "$version" != "" ]];then
     # export version to modules
-    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-app-temp-hum; do
+    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-tests/${test_util} jade-app-temp-hum; do
+        echo "writing version number [$version] at $f "
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
 fi
@@ -159,18 +160,15 @@ if [[ "$cmd" == "stop" || "$cmd" == "reboot-cluster" || "$cmd" == "reboot-all" ]
 fi
 
 if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framework" ]];then
-    echo "copy jade-test to master node"
     # copy test scripts onto cluster
-    if [[ -d ./jade-tests/${test_util}/bin ]];then
-        scp -r ./jade-tests/${test_util}/bin robin@${master_host}:~/${test_util}/bin
-    fi
-    if [[ -d ./jade-tests/${test_util}/templates ]];then
-        scp -r ./jade-tests/${test_util}/templates robin@${master_host}:~/${test_util}
-    fi
-    scp ./jade-tests/${test_util}/*.py robin@${master_host}:~/${test_util}/
-    scp ./jade-tests/${test_util}/*.sh robin@${master_host}:~/${test_util}/
-    scp ./jade-tests/${test_util}/*.json robin@${master_host}:~/${test_util}/
-    
+    echo "copy ${test_util} to master node"
+    ssh robin@${master_host} <<!
+        echo "updating ${test_util} on ${master_host}"
+        if [[ -d ./${test_util} || -f ./${test_util} ]];then
+            rm -rf ./${test_util}
+        fi
+!
+    scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
 fi
 
 if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
