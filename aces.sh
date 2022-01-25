@@ -22,11 +22,14 @@ master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-pi-44'
 test_util='test-framework'
 
-if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
+if [[ "$version" != "" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-app-temp-hum; do
         echo '{ "version": "'${version}'" }' > ${f}/version.json
     done
+fi
+
+if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
 
     # git commit 
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui jade-app-temp-hum/jade-app
