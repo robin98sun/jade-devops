@@ -39,6 +39,22 @@ fi
 # start addon services
 if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
     ssh ${target_user}@${target_host} << !
+
+        # echo "ps -ef | grep 'jade-addons' | grep 'metrics-env' | grep -v 'grep' |wc -l|awk '{print \\\$1}'"
+        # echo "there are" `ps -ef | grep "jade-addons" | grep "metrics-env" | grep -v "grep" |wc -l` "addons running"
+
+        ps -ef | grep "jade-addons" | grep "metrics-env" > ./temp-jade-addon-deployment.tmp
+        # lines=`cat ./temp-jade-addon-deployment.tmp|wc -l |awk '{print \$1}'`
+        # echo "\$line addons running"
+
+        cat ./temp-jade-addon-deployment.tmp|awk '{print \$2}'|xargs kill -9
+
+        # ps -ef | grep "jade-addons" | grep "metrics-env" > ./temp-jade-addon-deployment.tmp
+        # # lines=`cat ./temp-jade-addon-deployment.tmp|wc -l |awk '{print \$1}'`
+        # # echo "\$line addons running after clearing"
+
+        rm -f ./temp-jade-addon-deployment.tmp
+
         function start_addon() {
             addon_name=\$1
             addon_script=\$2
@@ -58,7 +74,7 @@ if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
                 ps -ef | grep "jade-addons" | grep "\${addon_name}" | grep -v "grep" 
                 echo ""
                 echo "---->stop existing addon script [\${addon_name}]"
-                ps -ef | grep "jade-addons" | grep "\${addon_name}" | grep -v "grep" | awk '{print \$2}'|xargs kill -9
+                ps -ef | grep "jade-addons" | grep "\${addon_name}" | grep -v "grep" | awk '{print \$2}'|sudo xargs kill -9
             fi
             echo "---->clear logs for addon scripts [\${addon_name}]"
             > \${addon_log_dir}/\${addon_name}.log
@@ -66,6 +82,8 @@ if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
             nohup \${addon_script} --port ${port} > \${addon_log_dir}/\${addon_name}.log 2>&1 &
             echo "---->done [\${addon_name}]"
         }
+
+
 
         start_addon metrics-env ${target_dir}/metrics-env/metrics-env-http.py ${target_dir}/logs 
 !
