@@ -19,7 +19,7 @@ scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deploymen
 
 deployment_config_directory='ethernet-32'
 master_host='aces-diamonds-ace.uta.edu'
-isa_arm_host='aces-pi-44'
+isa_arm_host='aces-devpi-01'
 test_util='test-framework'
 
 if [[ "$version" != "" ]];then
@@ -131,12 +131,12 @@ fi
 if [[ "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
     echo "stop existing jade system and jade applications"
     ssh robin@${master_host} <<!
-        # delete jade
-        echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
-        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
         # delete app pods
         echo "kubectl get deployments|grep app-jade|awk '{print \$1}'|xargs kubectl delete deployments"
         kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 --force
+        # delete jade
+        echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
+        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
         # delete app services
         echo "kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services"
         kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services
