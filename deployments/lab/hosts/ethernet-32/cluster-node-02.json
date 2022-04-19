@@ -1,8 +1,8 @@
 {
     "nodes": {
-        "aces-diamonds-ace": {
-            "hostname": "129.107.206.218",
-            "address": "129.107.206.218"
+        "aces-cluster-02": {
+            "hostname": "129.107.126.168",
+            "address": "129.107.126.168"
         }
     },
     "capacity": {
