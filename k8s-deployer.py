@@ -155,21 +155,38 @@ if args.env_var_file is not None:
 
 #  overwrite self node information
 self_node = [{
-  "name": "JADE_SELFNODE_HOSTNAME",
-  "value": args.target_host
-}, {
   "name": "JADE_SELFNODE_PODNAME",
   "value": podname
-}, {
-  "name": "JADE_SELFNODE_NAMESPACE",
-  "value": args.namespace
-}, {
-  "name": "JADE_SELFNODE_SERVICEEXTERNAL",
-  "value": external_service_name
 }]
 
+got_selfnode_service_external = False
+got_selfnode_namespace = False
+got_selfnode_hostname = False
 for i in self_node:
   envVariables.append(i)
+  if i["name"] == "JADE_SELFNODE_SERVICEEXTERNAL":
+    external_service_name = i["value"]
+    got_selfnode_service_external = True
+  elif i["name"] == "JADE_SELFNODE_NAMESPACE":
+    got_selfnode_namespace = True
+  elif i["name"] == "JADE_SELFNODE_HOSTNAME":
+    got_selfnode_hostname = True
+
+if not got_selfnode_service_external:
+  self_node.append({
+    "name": "JADE_SELFNODE_SERVICEEXTERNAL",
+    "value": external_service_name
+  })
+if not got_selfnode_namespace:
+  self_node.append({
+    "name": "JADE_SELFNODE_NAMESPACE",
+    "value": args.namespace
+  })
+if not got_selfnode_hostname:
+  self_node.append({
+    "name": "JADE_SELFNODE_HOSTNAME",
+    "value": args.target_host
+  })
 
 doc["spec"]["containers"][0]["env"] = envVariables
 
