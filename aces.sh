@@ -172,7 +172,7 @@ if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framewo
     scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
 fi
 
-if [[ "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
+if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
     echo "deploy addons on master node"
     ./jade-devops/deploy-addons.sh robin ${master_host}
     echo ""
