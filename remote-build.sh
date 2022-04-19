@@ -223,7 +223,7 @@ if [[ "$cmd" == "push" || "$cmd" == "build-and-push" ]];then
     sudo docker push ${registry}/jade-app-temp-hum:${tag}
     if [[ \$? != 0 ]];then exit; fi
 
-    sudo docker image ls | grep jade | awk '{print $3}'|xargs sudo docker image rm -f
+    sudo docker image ls | grep jade | awk '{print \$3}'|xargs sudo docker image rm -f
 fi
 fi
 
