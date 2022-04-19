@@ -107,7 +107,7 @@ def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token
         node_keys = list(registry_conf["nodes"].keys())
         registry_name  = node_keys[0]
         registry = registry_conf["nodes"][registry_name]
-        registry_token = registry["token"]
+        registry_token = registry_conf["token"]
 
     if agent_conf is not None:
         for agent_name in agent_conf["nodes"].keys():
