@@ -18,6 +18,11 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--registry', type=str, required=False,
+    help='the json file for registry node'
+)
+
+parser.add_argument(
     '--env-dir', type=str, required=True,
     help='the directory for storing env files'
 )
@@ -77,7 +82,7 @@ def update_version(image, version, isa):
 
     return result
 
-def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_agent = None):
+def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token_of_master = None, token_of_agent = None):
     master = None
     master_name = None
     master_token = token_of_master
@@ -95,58 +100,78 @@ def gen_env(version, master_conf, agent_conf, token_of_master = None, token_of_a
     if master_token is None:
         master_token = random_token(80)
 
-    for agent_name in agent_conf["nodes"].keys():
-        agent = agent_conf["nodes"][agent_name]
-        env_file = args.env_dir + '/' + agent_name + '.txt'
-        content = []
-        token = token_of_agent
-        if token is None and "token" in agent_conf:
-            token = agent_conf["token"]
-        if token is None:
-            token = random_token(80)
+    registry = None
+    registry_name = None
+    registry_token = None
+    if registry_conf is not None:
+        node_keys = list(registry_conf["nodes"].keys())
+        registry_name  = node_keys[0]
+        registry = registry_conf["nodes"][registry_name]
+        registry_token = registry["token"]
 
-        content.append('JADE_JADELET_VERSION='+version)
-        content.append('JADE_SELFNODE_TOKEN='+token)
-        content.append('JADE_SELFNODE_SERVICEEXTERNAL=jadelet-'+agent_name.replace('_','-').replace('.','-')+'-service-external')
-        content.append('JADE_SELFNODE_NAMESPACE='+args.namespace)
-        content.append('JADE_SELFNODE_PROTOCOL='+args.protocol)
-        content.append('JADE_SELFNODE_ADDRESS='+agent["address"])
-        content.append('JADE_SELFNODE_HOSTNAME='+agent["hostname"])
-        if "port" in agent:
-            content.append('JADE_SELFNODE_PORT='+str(agent["port"]))
+    if agent_conf is not None:
+        for agent_name in agent_conf["nodes"].keys():
+            agent = agent_conf["nodes"][agent_name]
+            env_file = args.env_dir + '/' + agent_name + '.txt'
+            content = []
+            token = token_of_agent
+            if token is None and "token" in agent_conf:
+                token = agent_conf["token"]
+            if token is None:
+                token = random_token(80)
 
-        if master is not None:
-            content.append('JADE_UPPERNODE_PROTOCOL='+args.protocol)
-            content.append('JADE_UPPERNODE_ADDRESS='+master["address"])
-            content.append('JADE_UPPERNODE_HOSTNAME='+master["hostname"])
-            content.append('JADE_UPPERNODE_TOKEN='+master_token)
-            content.append('JADE_UPPERNODE_SERVICEEXTERNAL=jadelet-'+master_name.replace('_','-').replace('.','-')+'-service-external')
-            content.append('JADE_UPPERNODE_NAMESPACE='+args.namespace)
-            if "port" in master:
-                content.append('JADE_UPPERNODE_PORT='+str(master["port"]))
+            content.append('JADE_JADELET_VERSION='+version)
+            content.append('JADE_SELFNODE_TOKEN='+token)
+            content.append('JADE_SELFNODE_SERVICEEXTERNAL=jadelet-'+agent_name.replace('_','-').replace('.','-')+'-service-external')
+            content.append('JADE_SELFNODE_NAMESPACE='+args.namespace)
+            content.append('JADE_SELFNODE_PROTOCOL='+args.protocol)
+            content.append('JADE_SELFNODE_ADDRESS='+agent["address"])
+            content.append('JADE_SELFNODE_HOSTNAME='+agent["hostname"])
+            if "port" in agent:
+                content.append('JADE_SELFNODE_PORT='+str(agent["port"]))
 
-        if "isa" in agent_conf:
-            content.append('JADE_JADELET_ISA='+str(agent_conf["isa"]))
-        if "capacity" in agent_conf:
-            if "cpu" in agent_conf["capacity"]:
-                content.append('JADE_CAPACITY_CPU='+str(agent_conf["capacity"]["cpu"]))
-            if "ram" in agent_conf["capacity"]:
-                content.append('JADE_CAPACITY_RAM='+str(agent_conf["capacity"]["ram"]))
-            if "disk" in agent_conf["capacity"]:
-                content.append('JADE_CAPACITY_DISK='+str(agent_conf["capacity"]["disk"]))
-            if "bandwidth" in agent_conf["capacity"]:
-                content.append('JADE_CAPACITY_BANDWIDTH='+str(agent_conf["capacity"]["bandwidth"]))
+            if master is not None:
+                content.append('JADE_UPPERNODE_PROTOCOL='+args.protocol)
+                content.append('JADE_UPPERNODE_ADDRESS='+master["address"])
+                content.append('JADE_UPPERNODE_HOSTNAME='+master["hostname"])
+                content.append('JADE_UPPERNODE_TOKEN='+master_token)
+                content.append('JADE_UPPERNODE_SERVICEEXTERNAL=jadelet-'+master_name.replace('_','-').replace('.','-')+'-service-external')
+                content.append('JADE_UPPERNODE_NAMESPACE='+args.namespace)
+                if "port" in master:
+                    content.append('JADE_UPPERNODE_PORT='+str(master["port"]))
 
-        if "capabilities" in agent_conf:
-            idx = 0
-            for key in agent_conf["capabilities"].keys():
-                content.append('JADE_CAPABILITY_'+str(idx)+'_NAME='+key)
-                content.append('JADE_CAPABILITY_'+str(idx)+'_API='+agent_conf["capabilities"][key])
-                idx+=1
+            if registry is not None:
+                content.append('JADE_REGISTRY_PROTOCOL='+args.protocol)
+                content.append('JADE_REGISTRY_ADDRESS='+registry["address"])
+                content.append('JADE_REGISTRY_HOSTNAME='+registry["hostname"])
+                content.append('JADE_REGISTRY_TOKEN='+registry_token)
+                content.append('JADE_REGISTRY_SERVICEEXTERNAL=jadelet-'+registry_name.replace('_','-').replace('.','-')+'-service-external')
+                content.append('JADE_REGISTRY_NAMESPACE='+args.namespace)
+                if "port" in registry:
+                    content.append('JADE_REGISTRY_PORT='+str(registry["port"]))
 
-        with open(env_file, 'a') as f:
-            for line in content:
-                f.write(line+"\n")
+            if "isa" in agent_conf:
+                content.append('JADE_JADELET_ISA='+str(agent_conf["isa"]))
+            if "capacity" in agent_conf:
+                if "cpu" in agent_conf["capacity"]:
+                    content.append('JADE_CAPACITY_CPU='+str(agent_conf["capacity"]["cpu"]))
+                if "ram" in agent_conf["capacity"]:
+                    content.append('JADE_CAPACITY_RAM='+str(agent_conf["capacity"]["ram"]))
+                if "disk" in agent_conf["capacity"]:
+                    content.append('JADE_CAPACITY_DISK='+str(agent_conf["capacity"]["disk"]))
+                if "bandwidth" in agent_conf["capacity"]:
+                    content.append('JADE_CAPACITY_BANDWIDTH='+str(agent_conf["capacity"]["bandwidth"]))
+
+            if "capabilities" in agent_conf:
+                idx = 0
+                for key in agent_conf["capabilities"].keys():
+                    content.append('JADE_CAPABILITY_'+str(idx)+'_NAME='+key)
+                    content.append('JADE_CAPABILITY_'+str(idx)+'_API='+agent_conf["capabilities"][key])
+                    idx+=1
+
+            with open(env_file, 'a') as f:
+                for line in content:
+                    f.write(line+"\n")
 
     if master is None:
         return master_token
@@ -166,16 +191,22 @@ if args.agents is not None and len(args.agents) > 0:
         agent_conf = read_json_file(agent)
         agents.append(agent_conf)
 
+registry_conf = None
+if args.registry is not None:
+    registry_conf = read_json_file(args.registry)
+
 # Generate environment files
 # create env dir if needed
-if args.env_dir is not None:
-    os.system("mkdir -p "+args.env_dir)
+# if args.env_dir is not None:
+#     os.system("mkdir -p "+args.env_dir)
 
-
-master_token=gen_env(args.version, None, master_conf, master_conf["token"], master_conf["token"])
+master_token=gen_env(
+                args.version, master_conf = None, agent_conf = master_conf, registry_conf = registry_conf,
+                token_of_master = master_conf["token"], token_of_agent = master_conf["token"],
+            )
 
 for agent_conf in agents: 
-    gen_env(args.version, master_conf, agent_conf, master_token, agent_conf["token"])
+    gen_env(args.version, master_conf, agent_conf, None, master_token, agent_conf["token"])
 
 # Deploy cluster
 current_dir = os.path.dirname(os.path.abspath(__file__))

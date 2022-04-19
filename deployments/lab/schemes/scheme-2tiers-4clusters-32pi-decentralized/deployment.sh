@@ -15,21 +15,18 @@ env_dir=./jade-devops/deployments/lab/env
 rm -rf ${env_dir}
 mkdir -p ${env_dir}
 
-# top tier (tier0)
-# ./jade-devops/speed-deploy-by-config.py \
-#     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
-#     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-#              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-02.json \
-#              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-03.json \
-#              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-04.json \
-#     --env-dir ${env_dir} \
-#     --version ${version} \
-#     --partial-deployment 'all'
 
+# dedicated registry
+./jade-devops/speed-deploy-by-config.py \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
+    --env-dir ${env_dir} \
+    --version ${version} \
+    --partial-deployment 'all'
 
 # tier1
 # cluster1: cluster 01: SEIR225
 ./jade-devops/speed-deploy-by-config.py \
+    --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.2.json \
@@ -45,6 +42,7 @@ mkdir -p ${env_dir}
 
 # cluster2: cluster 02: Akshit's Office
 ./jade-devops/speed-deploy-by-config.py \
+    --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-02.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.0.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.1.json \
@@ -60,6 +58,7 @@ mkdir -p ${env_dir}
 
 # cluster3: cluster 03: Ning's Office
 ./jade-devops/speed-deploy-by-config.py \
+    --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-03.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.0.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.1.json \
@@ -75,6 +74,7 @@ mkdir -p ${env_dir}
 
 # cluster4: cluster 04: Server room in SEIR
 ./jade-devops/speed-deploy-by-config.py \
+    --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-04.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.2.json \

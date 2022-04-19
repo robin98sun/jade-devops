@@ -94,14 +94,14 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     cp -r jade-ui/build jade-go/ui 
     tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/${test_util} jade-app-temp-hum
 
-    if [[ "$cmd" != "devops" ]];then
-        cmd="build-and-push"
-    fi
+    # if [[ "$cmd" != "devops" ]];then
+    #     cmd="build-and-push"
+    # fi
 fi
 
 if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" && "$cmd" != "test-framework" ]]; then
     echo "build on the remote servers"
-    if [[ "$ccmd" != "devops" ]];then
+    if [[ "$cmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
             ${master_host} robin \
             ${isa_arm_host} pi \
