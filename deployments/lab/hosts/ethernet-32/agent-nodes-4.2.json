@@ -1,7 +1,7 @@
 {
     "nodes": {
         "aces-pi-42": {
-            "hostname": "129.107.206.81",
+            "hostname": "aces-pi-42",
             "address": "129.107.206.81"
         }
     }, 
