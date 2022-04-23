@@ -67,20 +67,19 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     git tag -a v$version -m "version: $version"
     git push origin master
 
-    cd ../jade-doc
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    # cd ../jade-doc
+    # git add .
+    # git commit -m "version: $version"
+    # git tag -a v$version -m "version: $version"
+    # git push origin master
 
-    cd ../jade-ui
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
-    
-    echo "building UI"
-    npm run build
+    # cd ../jade-ui
+    # git add .
+    # git commit -m "version: $version"
+    # git tag -a v$version -m "version: $version"
+    # git push origin master  
+    # echo "building UI"
+    # npm run build
 
     cd ../jade-tests
     git add .
@@ -172,7 +171,7 @@ if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framewo
     scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
 fi
 
-if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "new" || "$cmd" == "reboot-all" ]];then
+if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "reboot-all" ]];then
     echo "deploy addons on master node"
     ./jade-devops/deploy-addons.sh robin ${master_host}
     echo ""
