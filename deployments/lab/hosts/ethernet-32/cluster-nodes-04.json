@@ -1,7 +1,7 @@
 {
     "nodes": {
         "aces-cluster-04": {
-            "hostname": "129.107.208.206",
+            "hostname": "aces-cluster-04",
             "address": "129.107.208.206"
         }
     },
