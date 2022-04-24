@@ -14,8 +14,8 @@ if [[ "$scheme" == "" ]];then
     # scheme="scheme-multi_tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet-partial"
-    # scheme="scheme-2tiers-4clusters-32pi-decentralized"
-    scheme="scheme-2tiers-1cluster-8pi"
+    scheme="scheme-2tiers-4clusters-32pi-decentralized"
+    # scheme="scheme-2tiers-1cluster-8pi"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
@@ -162,14 +162,17 @@ fi
 
 if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framework" ]];then
     # copy test scripts onto cluster
-    echo "copy ${test_util} to master node"
-    ssh robin@${master_host} <<!
-        echo "updating ${test_util} on ${master_host}"
-        if [[ -d ./${test_util} || -f ./${test_util} ]];then
-            rm -rf ./${test_util}
-        fi
-!
+    echo "copy ${test_util} to cluster nodes"
+#     ssh robin@${master_host} <<!
+#         echo "updating ${test_util} on ${master_host}"
+#         if [[ -d ./${test_util} || -f ./${test_util} ]];then
+#             rm -rf ./${test_util}
+#         fi
+# !
     scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
+    for i in {1..4}; do
+        scp -r ./jade-tests/${test_util} robin@aces-cluster-0${i}:~/${test_util}
+    done
 fi
 
 if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "reboot-all" ]];then
