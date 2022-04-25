@@ -13,11 +13,6 @@
     },
     "capabilities": {
         "master_id": ";value://cluster3",
-        "location": ";value://SF",
-        "accuracy": ";value://city",
-        "avg_temperature": "get;http://176.0.0.3/temperature;timespan=int",
-        "current_temperature": "get;http://176.0.0.3/temperature",
-        "VIDEOSTREAM_URL": "get;http://176.0.0.1:8888/video_stream",
         "jade-addon-env-metrics": "get;http://129.107.121.76:8765/metrics"
     },
     "isa": "amd64",

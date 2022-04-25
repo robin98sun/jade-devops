@@ -163,16 +163,32 @@ fi
 if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framework" ]];then
     # copy test scripts onto cluster
     echo "copy ${test_util} to cluster nodes"
-#     ssh robin@${master_host} <<!
-#         echo "updating ${test_util} on ${master_host}"
-#         if [[ -d ./${test_util} || -f ./${test_util} ]];then
-#             rm -rf ./${test_util}
-#         fi
-# !
+    ssh robin@${master_host} <<!
+        echo "updating ${test_util} on ${master_host}"
+        if [[ -d ./${test_util} || -f ./${test_util} ]];then
+            rm -rf ./${test_util}
+        fi
+
+        if [[ ! -d ./test-data ]]; then
+            mkdir ./test-data
+        fi
+!
     scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
+    
     for i in {1..4}; do
-        scp -r ./jade-tests/${test_util} robin@aces-cluster-0${i}:~/${test_util}
+        host=aces-cluster-0${i}
+ssh robin@${host} <<!
+        echo "updating ${test_util} on ${host}"
+        if [[ -d ./${test_util} || -f ./${test_util} ]];then
+            rm -rf ./${test_util}
+        fi
+!
+        scp -r ./jade-tests/${test_util} robin@${host}:~/${test_util}
     done
+
+    if [[ ! -d ./test-data ]]; then
+        mkdir ./test-data
+    fi
 fi
 
 if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "reboot-all" ]];then
