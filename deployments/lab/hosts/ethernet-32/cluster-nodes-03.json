@@ -1,21 +1,24 @@
 {
-    "nodes": {
-        "aces-cluster-03": {
-            "hostname": "aces-cluster-03",
-            "address": "129.107.121.76"
-        }
+  "nodes": {
+    "aces-cluster-03": {
+      "hostname": "aces-cluster-03",
+      "address": "129.107.121.76"
+    }
+  },
+  "capacity": {
+    "cpu": 3000,
+    "ram": 16000,
+    "disk": 1000,
+    "bandwidth": 1000
+  },
+  "capabilities": {
+    "private": {
+      "jade-addon-env-metrics": "get;http://129.107.121.76:8765/metrics",
+      "master_id": ";value://cluster3"
     },
-    "capacity": {
-        "cpu": 3000,
-        "ram": 16000,
-        "disk": 1000,
-        "bandwidth": 1000
-    },
-    "capabilities": {
-        "master_id": ";value://cluster3",
-        "jade-addon-env-metrics": "get;http://129.107.121.76:8765/metrics"
-    },
-    "isa": "amd64",
-    "image": "robin98/jadelet:version",
-    "token": "oUcflyC2rSW1ul0bKeNMp4090Jqg6cfy8GNzgmBABaawO6ZvuA1Bq8hcr3SaecZHr3tAp0Kaxyje8oAo"
+    "public": {}
+  },
+  "isa": "amd64",
+  "image": "robin98/jadelet:version",
+  "token": "oUcflyC2rSW1ul0bKeNMp4090Jqg6cfy8GNzgmBABaawO6ZvuA1Bq8hcr3SaecZHr3tAp0Kaxyje8oAo"
 }
