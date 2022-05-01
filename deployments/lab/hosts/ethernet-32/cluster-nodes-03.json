@@ -13,10 +13,11 @@
   },
   "capabilities": {
     "private": {
-      "jade-addon-env-metrics": "get;http://129.107.121.76:8765/metrics",
-      "master_id": ";value://cluster3"
+      "jade-addon-env-metrics": "get;http://129.107.121.76:8765/metrics"
     },
-    "public": {}
+    "public": {
+      "master_id": ";value://cluster3"
+    }
   },
   "isa": "amd64",
   "image": "robin98/jadelet:version",
