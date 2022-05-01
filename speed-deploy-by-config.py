@@ -167,7 +167,7 @@ def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token
                 for cap_type in agent_conf["capabilities"].keys():
                     for key in agent_conf["capabilities"][cap_type]:
                         content.append('JADE_CAPABILITY_'+cap_type.upper()+'_'+str(idx)+'_NAME='+key)
-                        content.append('JADE_CAPABILITY_'+cap_type.upper()+'_'+str(idx)+'_API='+agent_conf["capabilities"][key])
+                        content.append('JADE_CAPABILITY_'+cap_type.upper()+'_'+str(idx)+'_API='+agent_conf["capabilities"][cap_type][key])
                         idx+=1
 
             with open(env_file, 'a') as f:
