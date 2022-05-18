@@ -99,7 +99,7 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     # fi
 fi
 
-if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" && "$cmd" != "test-framework" ]]; then
+if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" && "$cmd" != "test-framework" && "$cmd" != "save" ]]; then
     echo "build on the remote servers"
     if [[ "$cmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
@@ -124,8 +124,8 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
         ${password}
 fi
 
-if [[ "$cmd" == "devops" ]];then
-    echo "DevOps has been copied to remote cluster"
+if [[ "$cmd" == "save" ]];then
+    echo "source code saved"
     exit 0
 fi
 
