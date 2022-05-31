@@ -211,4 +211,10 @@ if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "reboot-all"
             echo ""
         done
     done
+
+    for i in {1..4}; do
+        echo "deploy addons on cluster ${j}"
+        ./jade-devops/deploy-addons.sh robin aces-cluster-0${i}.uta.edu 
+        echo ""
+    done
 fi
