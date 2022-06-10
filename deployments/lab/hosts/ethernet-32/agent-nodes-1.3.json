@@ -2,7 +2,7 @@
     "nodes": {
         "aces-pi-13": {
             "hostname": "aces-pi-13",
-            "address": "129.107.208.208"
+            "address": "129.107.208.42"
         }
     }, 
     "capacity": {
