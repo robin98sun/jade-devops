@@ -64,20 +64,23 @@ function git_save() {
     curr_branch=`get_current_git_branch`
 
     if [[ "$curr_branch" != "$git_branch" ]];then
+        echo "saving branch $curr_branch before checking out branch $git_branch"
         git_save_branch "$curr_branch" "$comments"
     fi
 
     if [[ `check_git_branch_exist $git_branch` -eq 0 ]];then
+        echo "checking out new branch $git_branch"
         git checkout -b $git_branch
     else
+        echo "checking out existing branch $git_branch"
         git checkout $git_branch
     fi
 
+    echo "merging from previous branch $curr_branch to $git_branch"
     git merge "$curr_branch"
 
+    echo "saving branch $git_branch"
     git_save_branch "$git_branch" "$comments"
-
-
 
 }
 
