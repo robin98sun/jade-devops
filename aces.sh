@@ -25,7 +25,7 @@ master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-devpi-01'
 test_util='test-framework'
 
-if [[ "$version" != "" ]];then
+if [[ "$version" != "" && "$branch" == "master" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-tests/${test_util} jade-app-temp-hum; do
         echo "writing version number [$version] at $f "
@@ -62,21 +62,23 @@ function git_save() {
     comment_version=$2
 
     pwd
-    curr_branch=`get_current_git_branch`
     echo "going to save source code to branch $target_branch"
+
+    curr_branch=`get_current_git_branch`
 
     if [[ "$curr_branch" != "$target_branch" ]];then
         echo "saving branch $curr_branch before checking out branch $target_branch"
         git_save_branch "$curr_branch" "$comment_version"
+
+        if [[ `check_git_branch_exist $target_branch` -eq 0 ]];then
+            echo "checking out new branch $target_branch"
+            git checkout -b $target_branch
+        else
+            echo "checking out existing branch $target_branch"
+            git checkout $target_branch
+        fi
     fi
 
-    if [[ `check_git_branch_exist $target_branch` -eq 0 ]];then
-        echo "checking out new branch $target_branch"
-        git checkout -b $target_branch
-    else
-        echo "checking out existing branch $target_branch"
-        git checkout $target_branch
-    fi
 
     echo "merging from previous branch $curr_branch to $target_branch"
     git merge "$curr_branch"
@@ -88,37 +90,70 @@ function git_save() {
 
 }
 
-if [[ "$cmd" == "new" || "$cmd" == "save" ]];then
+
+if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" ]];then
 
     # git commit 
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui jade-app-temp-hum/jade-app
 
     echo "save source code to git repository"
     cd jade-go
-    git_save $branch $version
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
 
     cd ../jadesdk
-    git_save $branch $version
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
 
     cd ../plankton
-    git_save $branch $version
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
 
     cd ../jade-app-temp-hum
-    git_save $branch $version
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
 
     cd ../jade-devops
-    git_save $branch $version
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
 
     # cd ../jade-doc
-    # git_save $branch $version
+    # if [[ "$cmd" == "goto" ]];then
+    #     git_goto $branch $version
+    # else
+    #     git_save $branch $version
+    # fi
 
     # cd ../jade-ui
-    # git_save $branch $version
+    # if [[ "$cmd" == "goto" ]];then
+    #     git_goto $branch $version
+    # else
+    #     git_save $branch $version
+    # fi
     # echo "building UI"
     # npm run build
 
     cd ../jade-tests
-    git_save $branch $version
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
 
     cd ..
     echo "packing source code"
@@ -131,6 +166,10 @@ fi
 if [[ "$cmd" == "save" ]];then
     echo "source code saved"
     exit 0
+fi
+
+if [[ "$branch" != "master" ]];then
+    version=`echo "${branch}-${version}" | tr "/" "-" | tr " " "-"`
 fi
 
 if [[ "$cmd" == "new" ]];then
