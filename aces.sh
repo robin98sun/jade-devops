@@ -90,6 +90,13 @@ function git_save() {
 
 }
 
+function git_goto() {
+    target_branch=$1
+    comment_version=$2
+
+
+}
+
 
 if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" ]];then
 
@@ -209,7 +216,7 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         #kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
         kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 
         # delete app services
-        echo "kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services"
+        echo "kubectl get services|grep srv|grep "-jade-app-"|awk '{print \$1}'|xargs kubectl delete services"
         kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services
 
         if [[ "$cmd" == "stop" ]];then
