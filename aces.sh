@@ -3,10 +3,11 @@
 # this is only a batch script for building images on the cluster of lab
 # password of docker-registry
 cmd=$1
-version=$2
-registry=$3
-password=$4
-scheme=$5
+branch=$2
+version=$3
+registry=$4
+password=$5
+scheme=$6
 
 if [[ "$scheme" == "" ]];then
     # scheme="scheme-1tier-ethernet32"
@@ -32,61 +33,85 @@ if [[ "$version" != "" ]];then
     done
 fi
 
-if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
+
+function check_git_branch_exist() {
+    git_branch=$1
+    if [[ "$git_branch" == "" ]];then
+        echo 0
+    fi
+
+    git branch |grep "$git_branch"|wc -l|awk '{print $1}'
+}
+
+function get_current_git_branch() {
+    git branch |grep "*"|awk '{if (NF>1 && $1=="*"){print $2}}'
+}
+
+function git_save_branch() {
+    git_branch=$1
+    comments=$2
+
+    git add .
+    git commit -m "$comments"
+    git tag -a "v$comments" -m "version: $comments"
+    git push origin "$git_branch"
+}
+
+function git_save() {
+    git_branch=$1
+    comments=$2
+
+    curr_branch=`get_current_git_branch`
+
+    if [[ "$curr_branch" != "$git_branch" ]];then
+        git_save_branch "$curr_branch" "$comments"
+    fi
+
+    if [[ `check_git_branch_exist $git_branch` -eq 0 ]];then
+        git checkout -b $git_branch
+    else
+        git checkout $git_branch
+    fi
+
+    git merge "$curr_branch"
+
+    git_save_branch "$git_branch" "$comments"
+
+
+
+}
+
+if [[ "$cmd" == "new" || "$cmd" == "save" ]];then
 
     # git commit 
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui jade-app-temp-hum/jade-app
 
     echo "save source code to git repository"
     cd jade-go
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    git_save $branch $version
 
     cd ../jadesdk
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    git_save $branch $version
 
     cd ../plankton
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    git_save $branch $version
 
     cd ../jade-app-temp-hum
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    git_save $branch $version
 
     cd ../jade-devops
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    git_save $branch $version
 
     # cd ../jade-doc
-    # git add .
-    # git commit -m "version: $version"
-    # git tag -a v$version -m "version: $version"
-    # git push origin master
+    # git_save $branch $version
 
     # cd ../jade-ui
-    # git add .
-    # git commit -m "version: $version"
-    # git tag -a v$version -m "version: $version"
-    # git push origin master  
+    # git_save $branch $version
     # echo "building UI"
     # npm run build
 
     cd ../jade-tests
-    git add .
-    git commit -m "version: $version"
-    git tag -a v$version -m "version: $version"
-    git push origin master
+    git_save $branch $version
 
     cd ..
     echo "packing source code"
@@ -94,12 +119,14 @@ if [[ "$cmd" != "reuse" && "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" 
     cp -r jade-ui/build jade-go/ui 
     tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/${test_util} jade-app-temp-hum
 
-    # if [[ "$cmd" != "devops" ]];then
-    #     cmd="build-and-push"
-    # fi
 fi
 
-if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" && "$cmd" != "addon" && "$cmd" != "devops" && "$cmd" != "test-framework" && "$cmd" != "save" ]]; then
+if [[ "$cmd" == "save" ]];then
+    echo "source code saved"
+    exit 0
+fi
+
+if [[ "$cmd" == "new" ]];then
     echo "build on the remote servers"
     if [[ "$cmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
@@ -124,12 +151,7 @@ if [[ "$cmd" != "reboot-all" && "$cmd" != "reboot-cluster" && "$cmd" != "stop" &
         ${password}
 fi
 
-if [[ "$cmd" == "save" ]];then
-    echo "source code saved"
-    exit 0
-fi
-
-if [[ "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
+if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "restart" ]];then
     echo "stop existing jade system and jade applications"
     ssh robin@${master_host} <<!
         # delete app pods
@@ -148,21 +170,51 @@ if [[ "$cmd" != "addon" && "$cmd" != "test-framework" ]];then
             exit 0
         fi
 
-        if [[ "$cmd" != "addon" ]];then
-            # deploy jade
-            echo "deploying jade system, using scheme: ${scheme_deployment_cmd}"
-            cd ~/Dev/src/jadelet
-            chmod u+x ${scheme_deployment_cmd}
-            ${scheme_deployment_cmd} ${version} ${deployment_config_directory}
-        fi
+        # deploy jade
+        echo "deploying jade system, using scheme: ${scheme_deployment_cmd}"
+        cd ~/Dev/src/jadelet
+        chmod u+x ${scheme_deployment_cmd}
+        ${scheme_deployment_cmd} ${version} ${deployment_config_directory}
 !
 fi
 
-if [[ "$cmd" == "stop" || "$cmd" == "reboot-cluster" || "$cmd" == "reboot-all" ]];then
+if [[ "$cmd" == "stop" ]];then
     exit 0
 fi
 
-if [[ "$cmd" != "addon" && "$cmd" != "reboot-cluster" || "$cmd" == "test-framework" ]];then
+if [[  "$cmd" == "new" || "$cmd" == "addon" || "$cmd" == "reboot" || "$cmd" == "restart" ]];then
+    echo "deploy addons on master node"
+    ./jade-devops/deploy-addons.sh robin ${master_host}
+    echo ""
+    for i in {1..4}; do
+        for j in {1..4}; do
+            echo "deploy addons on pi ${i}${j}"
+            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
+            echo ""
+        done
+    done
+
+
+    for i in {5..6}; do
+        for j in {0..7}; do
+            echo "deploy addons on pi ${i}${j}"
+            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
+            echo ""
+        done
+    done
+
+    for i in {1..4}; do
+        echo "deploy addons on cluster ${j}"
+        ./jade-devops/deploy-addons.sh robin aces-cluster-0${i}.uta.edu 
+        echo ""
+    done
+fi
+
+if [[ "$cmd" == "reboot" || "$cmd" == "restart" || "$cmd" == "addon" ]];then
+    exit 0
+fi
+
+if [[ "$cmd" == "new" || "$cmd" == "test-framework" ]];then
     # copy test scripts onto cluster
     echo "copy ${test_util} to cluster nodes"
     ssh robin@${master_host} <<!
@@ -193,30 +245,4 @@ ssh robin@${host} <<!
     fi
 fi
 
-if [[  "$cmd" == "build-and-push" || "$cmd" == "addon" || "$cmd" == "reboot-all" ]];then
-    echo "deploy addons on master node"
-    ./jade-devops/deploy-addons.sh robin ${master_host}
-    echo ""
-    for i in {1..4}; do
-        for j in {1..4}; do
-            echo "deploy addons on pi ${i}${j}"
-            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
-            echo ""
-        done
-    done
 
-
-    for i in {5..6}; do
-        for j in {0..7}; do
-            echo "deploy addons on pi ${i}${j}"
-            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
-            echo ""
-        done
-    done
-
-    for i in {1..4}; do
-        echo "deploy addons on cluster ${j}"
-        ./jade-devops/deploy-addons.sh robin aces-cluster-0${i}.uta.edu 
-        echo ""
-    done
-fi
