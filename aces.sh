@@ -35,12 +35,12 @@ fi
 
 
 function check_git_branch_exist() {
-    git_branch=$1
-    if [[ "$git_branch" == "" ]];then
+    git_branch_check=$1
+    if [[ "$git_branch_check" == "" ]];then
         echo 0
     fi
 
-    git branch |grep "$git_branch"|wc -l|awk '{print $1}'
+    git branch |grep "$git_branch_check"|wc -l|awk '{print $1}'
 }
 
 function get_current_git_branch() {
@@ -48,41 +48,41 @@ function get_current_git_branch() {
 }
 
 function git_save_branch() {
-    git_branch=$1
+    git_branch_save=$1
     comments=$2
 
     git add .
     git commit -m "$comments"
     git tag -a "v$comments" -m "version: $comments"
-    git push origin "$git_branch"
+    git push origin "$git_branch_save"
 }
 
 function git_save() {
-    git_branch=$1
-    comments=$2
+    target_branch=$1
+    comment_version=$2
 
     pwd
     curr_branch=`get_current_git_branch`
-    echo "going to save source code to branch $git_branch"
+    echo "going to save source code to branch $target_branch"
 
-    if [[ "$curr_branch" != "$git_branch" ]];then
-        echo "saving branch $curr_branch before checking out branch $git_branch"
-        git_save_branch "$curr_branch" "$comments"
+    if [[ "$curr_branch" != "$target_branch" ]];then
+        echo "saving branch $curr_branch before checking out branch $target_branch"
+        git_save_branch "$curr_branch" "$comment_version"
     fi
 
-    if [[ `check_git_branch_exist $git_branch` -eq 0 ]];then
-        echo "checking out new branch $git_branch"
-        git checkout -b $git_branch
+    if [[ `check_git_branch_exist $target_branch` -eq 0 ]];then
+        echo "checking out new branch $target_branch"
+        git checkout -b $target_branch
     else
-        echo "checking out existing branch $git_branch"
-        git checkout $git_branch
+        echo "checking out existing branch $target_branch"
+        git checkout $target_branch
     fi
 
-    echo "merging from previous branch $curr_branch to $git_branch"
+    echo "merging from previous branch $curr_branch to $target_branch"
     git merge "$curr_branch"
 
-    echo "saving branch $git_branch"
-    git_save_branch "$git_branch" "$comments"
+    echo "saving branch $target_branch"
+    git_save_branch "$target_branch" "$comment_version"
 
     echo ""
 
