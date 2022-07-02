@@ -63,6 +63,7 @@ function git_save() {
 
     pwd
     curr_branch=`get_current_git_branch`
+    echo "going to save source code to branch $git_branch"
 
     if [[ "$curr_branch" != "$git_branch" ]];then
         echo "saving branch $curr_branch before checking out branch $git_branch"
