@@ -61,6 +61,7 @@ function git_save() {
     git_branch=$1
     comments=$2
 
+    pwd
     curr_branch=`get_current_git_branch`
 
     if [[ "$curr_branch" != "$git_branch" ]];then
@@ -81,6 +82,8 @@ function git_save() {
 
     echo "saving branch $git_branch"
     git_save_branch "$git_branch" "$comments"
+
+    echo ""
 
 }
 
