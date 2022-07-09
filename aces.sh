@@ -217,7 +217,7 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 
         # delete app services
         echo "kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services"
-        kubectl get services|grep srv-app-jade|awk '{print \$1}'|xargs kubectl delete services
+        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services
 
         if [[ "$cmd" == "stop" ]];then
             exit 0
