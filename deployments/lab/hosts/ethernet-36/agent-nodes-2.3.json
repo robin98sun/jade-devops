@@ -1,0 +1,36 @@
+{
+  "nodes": {
+    "aces-pi-23": {
+      "hostname": "aces-pi-23",
+      "address": "129.107.206.79"
+    }
+  },
+  "capacity": {
+    "cpu": 1000,
+    "ram": 500,
+    "disk": 1000,
+    "bandwidth": 1000
+  },
+  "capabilities": {
+    "private": {
+      "VIDEOSTREAM_URL": "get;http://176.0.0.1:8888/video_stream",
+      "jade-addon-env-metrics": "get;http://129.107.206.79:8765/metrics",
+      "jade-app-temp-hum_db_host": ";value://129.107.206.79",
+      "jade-app-temp-hum_db_name": ";value://tempsdb",
+      "jade-app-temp-hum_db_pass": ";value://abacus",
+      "jade-app-temp-hum_db_port": ";value://3306",
+      "jade-app-temp-hum_db_user": ";value://aces",
+      "jade-app-temp-hum_service": "post;http://129.107.206.79:30000"
+    },
+    "public": {
+      "accuracy": ";value://city",
+      "agent_id": ";value://agent7",
+      "avg_temperature": "get;http://176.0.0.3/temperature;timespan=int",
+      "current_temperature": "get;http://176.0.0.3/temperature",
+      "location": ";value://DAL"
+    }
+  },
+  "isa": "arm32",
+  "image": "robin98/jadelet:version",
+  "token": "Vv11AJu6j0ahS4fW20eOJ9iaapqJsf79r60DfFwVMsURO8cV7Vxt81rKsOkKvdM5Hb8d0PTVp8bVMUUN"
+}
