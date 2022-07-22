@@ -8,7 +8,7 @@ fi
 
 deployment_config_directory=$2
 if [[ "$deployment_config_directory" == "" ]]; then
-    deployment_config_directory='ethernet-16'
+    deployment_config_directory='ethernet-36'
 fi
 
 env_dir=./jade-devops/deployments/lab/env
