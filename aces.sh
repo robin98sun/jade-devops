@@ -16,7 +16,7 @@ if [[ "$scheme" == "" ]];then
     # scheme="scheme-multi_tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet-partial"
-    scheme="scheme-2tiers-4clusters-32pi-decentralized"
+    # scheme="scheme-2tiers-4clusters-32pi-decentralized"
     # scheme="scheme-2tiers-1cluster-8pi"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
