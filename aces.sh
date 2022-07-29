@@ -10,7 +10,8 @@ password=$5
 scheme=$6
 
 if [[ "$scheme" == "" ]];then
-    scheme="scheme-1tier-ethernet36"
+    scheme="scheme-1tier-cluster1"
+    # scheme="scheme-1tier-ethernet36"
     # scheme="scheme-1tier-ethernet32"
     # scheme="scheme-1tier-ethernet16"
     # scheme="scheme-multi_tiers-ethernet16"
