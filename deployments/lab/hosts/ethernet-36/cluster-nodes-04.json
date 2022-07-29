@@ -16,7 +16,8 @@
       "jade-addon-env-metrics": "get;http://129.107.208.206:8765/metrics"
     },
     "public": {
-      "master_id": ";value://cluster4"
+      "master_id": ";value://cluster4",
+      "agent_id": ";value://agent36"
     }
   },
   "isa": "amd64",
