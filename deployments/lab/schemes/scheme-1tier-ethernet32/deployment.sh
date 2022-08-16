@@ -16,7 +16,7 @@ rm -rf ${env_dir}
 mkdir -p ${env_dir}
 
 ./jade-devops/speed-deploy-by-config.py \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/master-node.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.3.json \
