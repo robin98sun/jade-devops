@@ -127,6 +127,13 @@ if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" ]];then
         git_save $branch $version
     fi
 
+    cd ../resource-manager
+    if [[ "$cmd" == "goto" ]];then
+        git_goto $branch $version
+    else
+        git_save $branch $version
+    fi
+
     cd ../plankton
     if [[ "$cmd" == "goto" ]];then
         git_goto $branch $version
