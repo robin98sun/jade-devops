@@ -181,9 +181,11 @@ if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" ]];then
     cd ..
     echo "packing source code"
 
-    cp -r jade-ui/build jade-go/ui 
-    tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/${test_util} jade-app-temp-hum
 
+    if [[ "$cmd" == "new" || "$cmd" == "goto" ]];then
+        cp -r jade-ui/build jade-go/ui 
+        tar czf jadelet.source.tar.gz jade-go jadesdk plankton jade-devops jade-tests/${test_util} jade-app-temp-hum
+    fi
 fi
 
 if [[ "$cmd" == "save" ]];then
