@@ -96,7 +96,7 @@ function git_goto() {
     target_branch=$1
     comment_version=$2
 
-
+    git checkout -b $target_branch $comment_version 
 }
 
 
