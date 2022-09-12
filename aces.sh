@@ -12,12 +12,12 @@ scheme=$6
 if [[ "$scheme" == "" ]];then
     # scheme="scheme-1tier-cluster1"
     # scheme="scheme-1tier-ethernet36"
-    scheme="scheme-1tier-ethernet32"
+    # scheme="scheme-1tier-ethernet32"
     # scheme="scheme-1tier-ethernet16"
     # scheme="scheme-multi_tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet16"
     # scheme="scheme-2tiers-ethernet-partial"
-    # scheme="scheme-2tiers-4clusters-32pi-decentralized"
+    scheme="scheme-2tiers-4clusters-32pi-decentralized"
     # scheme="scheme-2tiers-1cluster-8pi"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
