@@ -10,19 +10,11 @@ password=$5
 scheme=$6
 
 if [[ "$scheme" == "" ]];then
-    # scheme="scheme-1tier-cluster1"
-    # scheme="scheme-1tier-ethernet36"
-    # scheme="scheme-1tier-ethernet32"
-    # scheme="scheme-1tier-ethernet16"
-    # scheme="scheme-multi_tiers-ethernet16"
-    # scheme="scheme-2tiers-ethernet16"
-    # scheme="scheme-2tiers-ethernet-partial"
     scheme="scheme-2tiers-4clusters-32pi-decentralized"
-    # scheme="scheme-2tiers-1cluster-8pi"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
-deployment_config_directory='ethernet-32'
+deployment_config_directory='ethernet-36'
 master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-devpi-01'
 test_util='test-framework'
