@@ -59,7 +59,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-11.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -67,7 +67,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-12.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.2.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -75,7 +75,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-13.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.3.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -83,7 +83,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-14.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -91,7 +91,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-21.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.1.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -99,7 +99,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-22.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.2.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -107,7 +107,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-23.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.3.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -115,7 +115,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-24.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -123,7 +123,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-31.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.1.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -131,7 +131,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-32.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.2.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -139,7 +139,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-33.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.3.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -147,7 +147,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-34.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -155,7 +155,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-41.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.1.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -163,7 +163,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-42.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.2.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -171,7 +171,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-43.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.3.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -179,7 +179,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-44.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -187,7 +187,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-50.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.0.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -195,7 +195,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-51.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.1.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -203,7 +203,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-52.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.2.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -211,7 +211,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-53.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.3.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -219,7 +219,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-54.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -227,7 +227,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-55.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.5.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -235,7 +235,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-56.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.6.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -243,7 +243,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-57.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -251,7 +251,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-60.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.0.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -259,7 +259,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-61.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.1.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -267,7 +267,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-62.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.2.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -275,7 +275,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-63.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.3.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -283,7 +283,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-64.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -291,7 +291,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-65.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.5.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -299,7 +299,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-66.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.6.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
@@ -307,7 +307,7 @@ mkdir -p ${env_dir}
 # Raspberry Pi Clusters
 ./jade-devops/speed-deploy-by-config.py \
     --registry ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/aces-pi-67.json \
+    --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
     --partial-deployment 'all'
