@@ -16,6 +16,9 @@
       "jade-addon-env-metrics": "get;http://129.107.121.76:8765/metrics"
     },
     "public": {
+      "location": ";value://LA",
+      "accuracy": ";value://city",
+      "avg_temperature": "get;http://176.0.0.3/temperature;timespan=int",
       "master_id": ";value://cluster3",
       "agent_id": ";value://agent35"
     }
