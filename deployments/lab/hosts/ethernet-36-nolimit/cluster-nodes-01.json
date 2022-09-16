@@ -1,0 +1,29 @@
+{
+  "nodes": {
+    "aces-cluster-01": {
+      "hostname": "aces-cluster-01",
+      "address": "129.107.206.239"
+    }
+  },
+    "capacity": {
+        "cpu": 10,
+        "ram": 10,
+        "disk": 10,
+        "bandwidth": 10
+    },
+  "capabilities": {
+    "private": {
+      "jade-addon-env-metrics": "get;http://129.107.206.239:8765/metrics"
+    },
+    "public": {
+      "location": ";value://LA",
+      "accuracy": ";value://city",
+      "avg_temperature": "get;http://176.0.0.3/temperature;timespan=int",
+      "master_id": ";value://cluster1",
+      "agent_id": ";value://agent33"
+    }
+  },
+  "isa": "amd64",
+  "image": "robin98/jadelet:version",
+  "token": "oUcflyC2rSW1ul0bKeNMp4090Jqg6cfy8GNzgmBABaawO6ZvuA1Bq8hcr3SaecZHr3tAp0Kaxyje8oAo"
+}
