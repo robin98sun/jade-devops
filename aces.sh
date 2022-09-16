@@ -296,7 +296,7 @@ if [[ "$cmd" == "new" || "$cmd" == "devops" ]];then
 fi
 
 
-if [[ "$cmd" == "new" || "$cmd" == "addon" ]]; then
+if [[ "$cmd" == "addon" ]]; then
     for i in {1..4}; do
         host=aces-cluster-0${i}
 ssh robin@${host} <<!
