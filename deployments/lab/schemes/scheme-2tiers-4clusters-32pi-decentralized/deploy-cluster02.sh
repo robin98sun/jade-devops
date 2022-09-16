@@ -13,7 +13,7 @@ fi
 
 root_dir=$3
 if [[ "$root_dir" == "" ]];then
-    root_dir="${root_dir}"
+    root_dir="./jade-devops"
 fi
 
 additional_args=""

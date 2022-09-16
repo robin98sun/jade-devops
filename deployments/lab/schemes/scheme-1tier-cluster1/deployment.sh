@@ -11,6 +11,11 @@ if [[ "$deployment_config_directory" == "" ]]; then
     deployment_config_directory='ethernet-36'
 fi
 
+root_dir=$3
+if [[ "$root_dir" == "" ]];then
+    root_dir="./jade-devops"
+fi
+
 env_dir=${root_dir}/deployments/lab/env
 # rm -rf ${env_dir}
 if [[ ! -d $env_dir ]];then
