@@ -282,17 +282,17 @@ if [[ "$cmd" == "new" || "$cmd" == "devops" ]];then
     echo "copy devops to cluster nodes"
     ssh robin@${master_host} <<!
         echo "updating devops on ${master_host}"
-        if [[ -d ./devops || -f ./devops ]];then
-            rm -rf ./devops
+        if [[ -d ./jade-devops || -f ./jade-devops ]];then
+            rm -rf ./jade-devops
         fi
-        mkdir ./devops
+        mkdir ./jade-devops
 !
 
-    scp ./jade-devops/*.sh robin@${master_host}:~/devops
-    scp ./jade-devops/*.py robin@${master_host}:~/devops
-    scp ./jade-devops/*.json robin@${master_host}:~/devops
+    scp ./jade-devops/*.sh robin@${master_host}:~/jade-devops
+    scp ./jade-devops/*.py robin@${master_host}:~/jade-devops
+    scp ./jade-devops/*.json robin@${master_host}:~/jade-devops
 
-    scp -r ./jade-devops/deployments robin@${master_host}:~/devops
+    scp -r ./jade-devops/deployments robin@${master_host}:~/jade-devops
 fi
 
 
