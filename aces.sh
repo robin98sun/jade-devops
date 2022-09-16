@@ -19,7 +19,7 @@ master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-devpi-01'
 test_util='test-framework'
 
-if [[ "$version" != "" && "$branch" == "master" ]];then
+if [[ "$version" != "" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-tests/${test_util} jade-app-temp-hum; do
         echo "writing version number [$version] at $f "
