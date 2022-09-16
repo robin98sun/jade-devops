@@ -221,7 +221,7 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         echo "deploying jade system, using scheme: ${scheme_deployment_cmd}"
         cd ~/Dev/src/jadelet
         chmod u+x ${scheme_deployment_cmd}
-        ${scheme_deployment_cmd} ${version} ${deployment_config_directory}
+        ${scheme_deployment_cmd} ${version} ${deployment_config_directory} ./jade-devops
 !
 fi
 
