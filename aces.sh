@@ -275,7 +275,28 @@ if [[ "$cmd" == "new" || "$cmd" == "test-framework" ]];then
         fi
 !
     scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
-    
+fi
+
+if [[ "$cmd" == "new" || "$cmd" == "devops" ]];then
+    # copy test scripts onto cluster
+    echo "copy devops to cluster nodes"
+    ssh robin@${master_host} <<!
+        echo "updating devops on ${master_host}"
+        if [[ -d ./devops || -f ./devops ]];then
+            rm -rf ./devops
+        fi
+        mkdir ./devops
+!
+
+    scp ./jade-devops/*.sh robin@${master_host}:~/devops
+    scp ./jade-devops/*.py robin@${master_host}:~/devops
+    scp ./jade-devops/*.json robin@${master_host}:~/devops
+
+    scp -r ./jade-devops/deployments robin@${master_host}:~/devops
+fi
+
+
+if [[ "$cmd" == "new" || "$cmd" == "addon" ]]; then
     for i in {1..4}; do
         host=aces-cluster-0${i}
 ssh robin@${host} <<!
@@ -287,9 +308,6 @@ ssh robin@${host} <<!
         scp -r ./jade-tests/${test_util} robin@${host}:~/${test_util}
     done
 
-    if [[ ! -d ./test-data ]]; then
-        mkdir ./test-data
-    fi
 fi
 
 
