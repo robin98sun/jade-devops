@@ -30,6 +30,8 @@ parser.add_argument('--deployment-file', type=str, required=False,
                       help='the deployment file to be used in `kubectl apply -f` command')
 parser.add_argument('--target-host', type=str, required=True,
                       help='the target host name')
+parser.add_argument('--node-name', type=str, required=True,
+                      help='the node name, which does not have to be the same as host name')
 parser.add_argument('--namespace', type=str, required=False,
                       default="jade-app",
                       help='kubernetes namespace for JADE applications')
@@ -96,10 +98,11 @@ print("deployment name:", args.deployment_name)
 print("application name:", args.application_name)
 print("application image:", args.application_image)
 print("target host:", args.target_host)
+print("node name:", args.node_name)
 if args.env_var_file is not None:
   print("environment variables file:", args.env_var_file)
 
-podname = args.deployment_name + "-" + args.target_host
+podname = args.deployment_name + "-" + args.node_name
 external_service_name = podname + "-service-external"
 doc = {
   "apiVersion": "v1",
@@ -112,7 +115,8 @@ doc = {
       "jade-role": "jadelet",
       "jade-owner": "jade",
       "jade-app": args.deployment_name,
-      "jade-node": args.target_host,
+      # "jade-node": args.target_host,
+      "jade-node": args.node_name,
     }
   },
   "spec": {
@@ -206,7 +210,8 @@ doc = {
       "jade-role": "jadelet",
       "jade-owner": "jade",
       "jade-app": args.deployment_name,
-      "jade-node": args.target_host,
+      # "jade-node": args.target_host,
+      "jade-node": args.node_name,
     }
   },
   "spec": {
@@ -215,7 +220,8 @@ doc = {
       # "jade-role": "jadelet",
       # "jade-owner": "jade",
       "jade-app": args.deployment_name,
-      "jade-node": args.target_host,
+      # "jade-node": args.target_host,
+      "jade-node": args.node_name,
       # "kubernetes.io/hostname": args.target_host,
     },
     "type": "NodePort",

@@ -5,6 +5,7 @@ import json
 import random
 import sys
 import os
+import time
 
 parser = argparse.ArgumentParser(description='Deploy JADE in Kubernetes environment, including K8S and K3S')
 parser.add_argument(
@@ -58,6 +59,16 @@ parser.add_argument(
     help='to update configurations for master or agents or all of them, and do not perform fresh deployments for them'
 )
 
+parser.add_argument(
+    '--group-name', type=str,
+    help='group name for emulation'
+)
+
+parser.add_argument(
+    '--is-emulation', action='store_true', default=False,
+    help='if this deployment is an emulation'
+)
+
 args = parser.parse_args()
 
 
@@ -82,7 +93,7 @@ def update_version(image, version, isa):
 
     return result
 
-def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token_of_master = None, token_of_agent = None):
+def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token_of_master = None, token_of_agent = None, is_emulation = False):
     master = None
     master_name = None
     master_token = token_of_master
@@ -122,7 +133,12 @@ def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token
 
             content.append('JADE_JADELET_VERSION='+version)
             content.append('JADE_SELFNODE_TOKEN='+token)
-            content.append('JADE_SELFNODE_SERVICEEXTERNAL=jadelet-'+agent_name.replace('_','-').replace('.','-')+'-service-external')
+
+            if not is_emulation:
+                content.append('JADE_SELFNODE_SERVICEEXTERNAL=jadelet-'+agent_name.replace('_','-').replace('.','-')+'-service-external')
+            else:
+                content.append('JADE_SELFNODE_SERVICEEXTERNAL=emulation-'+agent_name.replace('_','-').replace('.','-')+'-service-external')
+
             content.append('JADE_SELFNODE_NAMESPACE='+args.namespace)
             content.append('JADE_SELFNODE_PROTOCOL='+args.protocol)
             content.append('JADE_SELFNODE_ADDRESS='+agent["address"])
@@ -135,7 +151,12 @@ def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token
                 content.append('JADE_UPPERNODE_ADDRESS='+master["address"])
                 content.append('JADE_UPPERNODE_HOSTNAME='+master["hostname"])
                 content.append('JADE_UPPERNODE_TOKEN='+master_token)
-                content.append('JADE_UPPERNODE_SERVICEEXTERNAL=jadelet-'+master_name.replace('_','-').replace('.','-')+'-service-external')
+
+                if not is_emulation:
+                    content.append('JADE_UPPERNODE_SERVICEEXTERNAL=jadelet-'+master_name.replace('_','-').replace('.','-')+'-service-external')
+                else:
+                    content.append('JADE_UPPERNODE_SERVICEEXTERNAL=emulation-'+master_name.replace('_','-').replace('.','-')+'-service-external')
+
                 content.append('JADE_UPPERNODE_NAMESPACE='+args.namespace)
                 if "port" in master:
                     content.append('JADE_UPPERNODE_PORT='+str(master["port"]))
@@ -145,7 +166,12 @@ def gen_env(version, master_conf, agent_conf = None, registry_conf = None, token
                 content.append('JADE_REGISTRY_ADDRESS='+registry["address"])
                 content.append('JADE_REGISTRY_HOSTNAME='+registry["hostname"])
                 content.append('JADE_REGISTRY_TOKEN='+registry_token)
-                content.append('JADE_REGISTRY_SERVICEEXTERNAL=jadelet-'+registry_name.replace('_','-').replace('.','-')+'-service-external')
+
+                if not is_emulation:
+                    content.append('JADE_REGISTRY_SERVICEEXTERNAL=jadelet-'+registry_name.replace('_','-').replace('.','-')+'-service-external')
+                else:
+                    content.append('JADE_REGISTRY_SERVICEEXTERNAL=jadelet-'+registry_name.replace('_','-').replace('.','-')+'-service-external')
+
                 content.append('JADE_REGISTRY_NAMESPACE='+args.namespace)
                 if "port" in registry:
                     content.append('JADE_REGISTRY_PORT='+str(registry["port"]))
@@ -185,11 +211,31 @@ def read_json_file(filename):
         conf = json.load(f)
     return conf
 
-master_conf = read_json_file(args.master)
+def emulate_config(conf):
+    if args.is_emulation:
+        if "nodes" in conf:
+            new_nodes = {}
+            for node_name in conf["nodes"]:
+                new_node_name = None
+                if args.group_name is not None:
+                    new_node_name = "{}-{}-{}-{}-{}".format(node_name, args.group_name, str(int(time.time()*1000))[-10:], int(random.random()*1000), int(random.random()*1000))
+                else:
+                    new_node_name = "{}-{}-{}-{}".format(node_name, str(int(time.time()*1000))[-10:], int(random.random()*1000), int(random.random()*1000))
+
+                new_node_name = new_node_name[0:32].replace(".", "-").replace("/", "-").replace(" ", "-")
+
+                new_nodes[new_node_name] = {
+                    "hostname": conf["nodes"][node_name]["hostname"],
+                    "address": conf["nodes"][node_name]["address"],
+                }
+            conf["nodes"] = new_nodes
+    return conf
+
+master_conf = emulate_config(read_json_file(args.master))
 agents = []
 if args.agents is not None and len(args.agents) > 0:
     for agent in args.agents:
-        agent_conf = read_json_file(agent)
+        agent_conf = emulate_config(read_json_file(agent))
         agents.append(agent_conf)
 
 registry_conf = None
@@ -204,10 +250,11 @@ if args.registry is not None:
 master_token=gen_env(
                 args.version, master_conf = None, agent_conf = master_conf, registry_conf = registry_conf,
                 token_of_master = master_conf["token"], token_of_agent = master_conf["token"],
+                is_emulation = args.is_emulation,
             )
 
 for agent_conf in agents: 
-    gen_env(args.version, master_conf, agent_conf, None, master_token, agent_conf["token"])
+    gen_env(args.version, master_conf, agent_conf, None, master_token, agent_conf["token"], is_emulation = args.is_emulation,)
 
 # Deploy cluster
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -230,6 +277,16 @@ if os.path.exists(deploy_script):
                 cmd += ' ' + args.namespace 
                 if args.delete != "none":
                     cmd += ' ' + args.delete
+                else:
+                    cmd += ' none'
+
+                if args.is_emulation:
+                    cmd += ' emulation'
+                else:
+                    cmd += ' none'
+
+                cmd += ' ' + conf["nodes"][node]["hostname"]
+
                 print(cmd)
                 if not args.do_not_deploy:
                     os.system(cmd)

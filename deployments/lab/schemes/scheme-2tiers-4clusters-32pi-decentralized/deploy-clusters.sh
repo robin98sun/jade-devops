@@ -16,9 +16,21 @@ if [[ "$root_dir" == "" ]];then
     root_dir="${root_dir}"
 fi
 
+additional_args=""
+is_emulation=$4
+if [[ "$is_emulation"  != "" ]];then
+    additional_args="--is-emulation"
+fi
+
+if [[ "$5"  != "" ]];then
+    additional_args="$additional_args --group-name $5"
+fi
+
 env_dir=${root_dir}/deployments/lab/env
-rm -rf ${env_dir}
-mkdir -p ${env_dir}
+# rm -rf ${env_dir}
+if [[ ! -d $env_dir ]];then
+    mkdir -p ${env_dir}
+fi
 
 # tier1
 # cluster1: cluster 01: SEIR225
@@ -35,7 +47,7 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all'
+    --partial-deployment 'all' "$additional_args"
 
 # cluster2: cluster 02: Akshit's Office
 ${root_dir}/speed-deploy-by-config.py \
@@ -51,7 +63,7 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all'
+    --partial-deployment 'all' "$additional_args"
 
 # cluster3: cluster 03: Ning's Office
 ${root_dir}/speed-deploy-by-config.py \
@@ -67,7 +79,7 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all'
+    --partial-deployment 'all' "$additional_args"
 
 # cluster4: cluster 04: Server room in SEIR
 ${root_dir}/speed-deploy-by-config.py \
@@ -83,6 +95,5 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all'
-
+    --partial-deployment 'all' "$additional_args"
 

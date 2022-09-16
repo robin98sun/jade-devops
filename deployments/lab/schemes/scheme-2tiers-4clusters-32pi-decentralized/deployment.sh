@@ -17,8 +17,12 @@ if [[ "$root_dir" == "" ]];then
 fi
 
 env_dir=${root_dir}/deployments/lab/env
-rm -rf ${env_dir}
-mkdir -p ${env_dir}
+# rm -rf ${env_dir}
+if [[ ! -d $env_dir ]];then
+    mkdir -p ${env_dir}
+fi
+
+
 
 
 # dedicated registry

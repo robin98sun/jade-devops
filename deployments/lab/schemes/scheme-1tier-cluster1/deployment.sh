@@ -11,9 +11,11 @@ if [[ "$deployment_config_directory" == "" ]]; then
     deployment_config_directory='ethernet-36'
 fi
 
-env_dir=./jade-devops/deployments/lab/env
-rm -rf ${env_dir}
-mkdir -p ${env_dir}
+env_dir=${root_dir}/deployments/lab/env
+# rm -rf ${env_dir}
+if [[ ! -d $env_dir ]];then
+    mkdir -p ${env_dir}
+fi
 
 ./jade-devops/speed-deploy-by-config.py \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
