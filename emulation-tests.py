@@ -85,12 +85,12 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        '--is-emulation', action='store_true', default=True,
+        '--is-emulation', action='store_true', default=False,
         help='if it is emulation'
     )
 
     parser.add_argument(
-        '--rounds', type=int, default=True,
+        '--rounds', type=int, default=1,
         help='how many rounds create the emulated pods'
     )
 
@@ -121,19 +121,16 @@ if __name__ == "__main__":
         start_time = time.time()
         def deploy_process(i):
             group_name = "g{}".format(i)
-            # deploy('ad-only', version, is_emulation = True, group = group_name)
-            deploy('ad-only', version, is_emulation = True)
+            deploy('ad-only', version, is_emulation = True, group = group_name)
+            # deploy('ad-only', version, is_emulation = True)
 
         p = multiprocessing.Pool(multiprocessing.cpu_count())
 
-        rounds = 100
-        if args.rounds is not None:
-            rounds = args.rounds
-        processes = p.map(deploy_process, range(rounds))
+        processes = p.map(deploy_process, range(args.rounds))
 
         end_time = time.time()
         dur = round(end_time - start_time,1)
-        print("deployed {} pods in {} seconds".format(len(processes)*4, dur))
+        print("deployed {} pods in {} seconds".format(len(processes)*28, dur))
 
 
     else:

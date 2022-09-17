@@ -47,4 +47,4 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all' "$additional_args"
+    --partial-deployment 'all' $additional_args

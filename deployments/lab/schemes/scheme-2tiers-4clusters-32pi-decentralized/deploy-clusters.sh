@@ -47,7 +47,7 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all' "$additional_args"
+    --partial-deployment 'all' $additional_args
 
 # cluster2: cluster 02: Akshit's Office
 ${root_dir}/speed-deploy-by-config.py \
@@ -63,7 +63,7 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all' "$additional_args"
+    --partial-deployment 'all' $additional_args
 
 # cluster3: cluster 03: Ning's Office
 ${root_dir}/speed-deploy-by-config.py \
@@ -79,7 +79,7 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.7.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all' "$additional_args"
+    --partial-deployment 'all' $additional_args
 
 # cluster4: cluster 04: Server room in SEIR
 ${root_dir}/speed-deploy-by-config.py \
@@ -95,5 +95,5 @@ ${root_dir}/speed-deploy-by-config.py \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.4.json \
     --env-dir ${env_dir} \
     --version ${version} \
-    --partial-deployment 'all' "$additional_args"
+    --partial-deployment 'all' $additional_args
 
