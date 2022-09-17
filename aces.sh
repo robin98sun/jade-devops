@@ -208,16 +208,16 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         # delete jade
         echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
         #kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
-        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
+        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0
 
         echo "kubectl get pods|grep emulation|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
-        kubectl get pods|grep emulation|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
+        kubectl get pods|grep emulation|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0
 
         # delete app services
         echo "kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services"
-        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services --force
+        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services 
         echo "kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services"
-        kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services --force
+        kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services
 
         if [[ "$cmd" == "stop" ]];then
             exit 0
