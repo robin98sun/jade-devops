@@ -92,7 +92,7 @@ function git_goto() {
 }
 
 
-if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" || "$cmd" == "compile" ]];then
 
     # git commit 
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui jade-app-temp-hum/jade-app
@@ -173,7 +173,7 @@ if [[ "$branch" != "master" ]];then
     version=`echo "${branch}-${version}" | tr "/" "-" | tr " " "-"`
 fi
 
-if [[ "$cmd" == "new" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "compile" ]];then
     echo "build on the remote servers"
     if [[ "$cmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
@@ -196,6 +196,10 @@ if [[ "$cmd" == "new" ]];then
         ${remote_cmd} \
         ${registry} "${version}--amd64" \
         ${password}
+fi
+
+if [[ "$cmd" == "compile" ]];then
+    exit 0
 fi
 
 if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "restart" ]];then
