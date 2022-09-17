@@ -261,23 +261,27 @@ if [[ "$cmd" == "reboot" || "$cmd" == "restart" || "$cmd" == "addon" ]];then
     exit 0
 fi
 
-if [[ "$cmd" == "new" || "$cmd" == "test-framework" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "test" || "$cmd" == "devops-and-test" ]];then
     # copy test scripts onto cluster
-    echo "copy ${test_util} to cluster nodes"
-    ssh robin@${master_host} <<!
-        echo "updating ${test_util} on ${master_host}"
-        if [[ -d ./${test_util} || -f ./${test_util} ]];then
-            rm -rf ./${test_util}
-        fi
+    echo "copy ${test_util} to master and cluster nodes"
+    for host in ${master_host} aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
+        ssh robin@${host} <<!
+            echo "updating ${test_util} on ${host}"
+            if [[ -d ./${test_util} || -f ./${test_util} ]];then
+                rm -rf ./${test_util}
+            fi
 
-        if [[ ! -d ./test-data ]]; then
-            mkdir ./test-data
-        fi
+            if [[ ! -d ./test-data ]]; then
+                mkdir ./test-data
+            fi
 !
-    scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
+        scp -r ./jade-tests/${test_util} robin@${host}:~/${test_util}
+        echo "${test_util} is copied to $host"
+        echo ""
+    done
 fi
 
-if [[ "$cmd" == "new" || "$cmd" == "devops" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "devops" || "$cmd" == "devops-and-test" ]];then
     # copy test scripts onto cluster
     echo "copy devops to cluster nodes"
     ssh robin@${master_host} <<!
