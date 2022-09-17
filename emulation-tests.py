@@ -13,19 +13,19 @@ import multiprocessing
 
 def clear_deployments():
     start_time = time.time()
-    cmd = "kubectl get deployments|grep jade|awk '{print $1}'|xargs kubectl delete deployments --grace-period=0 --force"
+    cmd = "kubectl get deployments|grep jade|awk '{print $1}'|xargs kubectl delete deployments --grace-period=0"
     subprocess.run(cmd, shell=True, check=False)
 
-    cmd = "kubectl get pods|grep jade|awk '{print $1}'|xargs kubectl delete pods --grace-period=0 --force"
+    cmd = "kubectl get pods|grep jade|awk '{print $1}'|xargs kubectl delete pods --grace-period=0"
     subprocess.run(cmd, shell=True, check=False)
 
-    cmd = "kubectl get pods|grep emulation|awk '{print $1}'|xargs kubectl delete pods --grace-period=0 --force"
+    cmd = "kubectl get pods|grep emulation|awk '{print $1}'|xargs kubectl delete pods --grace-period=0"
     subprocess.run(cmd, shell=True, check=False)
 
-    cmd = "kubectl get services|grep jade-app|awk '{print $1}'|xargs kubectl delete services --force"
+    cmd = "kubectl get services|grep jade-app|awk '{print $1}'|xargs kubectl delete services"
     subprocess.run(cmd, shell=True, check=False)
 
-    cmd = "kubectl get services|grep emulation|awk '{print $1}'|xargs kubectl delete services --force"
+    cmd = "kubectl get services|grep emulation|awk '{print $1}'|xargs kubectl delete services"
     subprocess.run(cmd, shell=True, check=False)
 
     end_time = time.time()
