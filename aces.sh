@@ -208,10 +208,16 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         # delete jade
         echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
         #kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
-        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 
+        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
+
+        echo "kubectl get pods|grep emulation|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
+        kubectl get pods|grep emulation|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
+
         # delete app services
         echo "kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services"
-        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services
+        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services --force
+        echo "kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services"
+        kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services --force
 
         if [[ "$cmd" == "stop" ]];then
             exit 0
@@ -229,7 +235,7 @@ if [[ "$cmd" == "stop" ]];then
     exit 0
 fi
 
-if [[  "$cmd" == "new" || "$cmd" == "addon" || "$cmd" == "reboot" || "$cmd" == "restart" ]];then
+if [[  "$cmd" == "addon" ]];then
     echo "deploy addons on master node"
     ./jade-devops/deploy-addons.sh robin ${master_host}
     echo ""
@@ -300,18 +306,6 @@ if [[ "$cmd" == "new" || "$cmd" == "devops" || "$cmd" == "devops-and-test" ]];th
 fi
 
 
-if [[ "$cmd" == "addon" ]]; then
-    for i in {1..4}; do
-        host=aces-cluster-0${i}
-ssh robin@${host} <<!
-        echo "updating ${test_util} on ${host}"
-        if [[ -d ./${test_util} || -f ./${test_util} ]];then
-            rm -rf ./${test_util}
-        fi
-!
-        scp -r ./jade-tests/${test_util} robin@${host}:~/${test_util}
-    done
 
-fi
 
 
