@@ -184,12 +184,12 @@ ${root_dir}/speed-deploy-by-config.py \
     --version ${version} \
     --partial-deployment 'all' $additional_args
 
-${root_dir}/speed-deploy-by-config.py \
-    --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
-    --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.1.json \
-    --env-dir ${env_dir} \
-    --version ${version} \
-    --partial-deployment 'all' $additional_args
+# ${root_dir}/speed-deploy-by-config.py \
+#     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
+#     --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.1.json \
+#     --env-dir ${env_dir} \
+#     --version ${version} \
+#     --partial-deployment 'all' $additional_args
 
 ${root_dir}/speed-deploy-by-config.py \
     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
@@ -212,12 +212,12 @@ ${root_dir}/speed-deploy-by-config.py \
     --version ${version} \
     --partial-deployment 'all' $additional_args
 
-${root_dir}/speed-deploy-by-config.py \
-    --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
-    --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.5.json \
-    --env-dir ${env_dir} \
-    --version ${version} \
-    --partial-deployment 'all' $additional_args
+# ${root_dir}/speed-deploy-by-config.py \
+#     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
+#     --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-6.5.json \
+#     --env-dir ${env_dir} \
+#     --version ${version} \
+#     --partial-deployment 'all' $additional_args
 
 ${root_dir}/speed-deploy-by-config.py \
     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
