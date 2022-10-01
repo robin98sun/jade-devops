@@ -10,28 +10,20 @@ password=$5
 scheme=$6
 
 if [[ "$scheme" == "" ]];then
-    # scheme="scheme-1tier-cluster1"
-    # scheme="scheme-1tier-ethernet36"
-    scheme="scheme-1tier-ethernet32"
-    # scheme="scheme-1tier-ethernet16"
-    # scheme="scheme-multi_tiers-ethernet16"
-    # scheme="scheme-2tiers-ethernet16"
-    # scheme="scheme-2tiers-ethernet-partial"
-    # scheme="scheme-2tiers-4clusters-32pi-decentralized"
-    # scheme="scheme-2tiers-1cluster-8pi"
+    scheme="scheme-2tiers-4clusters-32pi-decentralized"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
-deployment_config_directory='ethernet-32'
+deployment_config_directory='ethernet-36'
 master_host='aces-diamonds-ace.uta.edu'
 isa_arm_host='aces-devpi-01'
 test_util='test-framework'
 
-if [[ "$version" != "" && "$branch" == "master" ]];then
+if [[ "$version" != "" ]];then
     # export version to modules
     for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-tests/${test_util} jade-app-temp-hum; do
         echo "writing version number [$version] at $f "
-        echo '{ "version": "'${version}'" }' > ${f}/version.json
+        echo '{ "version": "'${version}'", "branch": "'${branch}'" }' > ${f}/version.json
     done
 fi
 
@@ -100,7 +92,7 @@ function git_goto() {
 }
 
 
-if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "save" || "$cmd" == "goto" || "$cmd" == "compile" ]];then
 
     # git commit 
     rm -rf jade-go/app plankton/plankton jadelet.source.tar.gz jade-go/ui jade-app-temp-hum/jade-app
@@ -197,7 +189,7 @@ if [[ "$branch" != "master" ]];then
     version=`echo "${branch}-${version}" | tr "/" "-" | tr " " "-"`
 fi
 
-if [[ "$cmd" == "new" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "compile" ]];then
     echo "build on the remote servers"
     if [[ "$cmd" != "devops" ]];then
         ./jade-devops/remote-build.sh \
@@ -222,6 +214,10 @@ if [[ "$cmd" == "new" ]];then
         ${password}
 fi
 
+if [[ "$cmd" == "compile" ]];then
+    exit 0
+fi
+
 if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "restart" ]];then
     echo "stop existing jade system and jade applications"
     ssh robin@${master_host} <<!
@@ -232,10 +228,16 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         # delete jade
         echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
         #kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
-        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 
+        kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0
+
+        echo "kubectl get pods|grep emulation|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
+        kubectl get pods|grep emulation|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0
+
         # delete app services
         echo "kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services"
-        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services
+        kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services 
+        echo "kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services"
+        kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services
 
         if [[ "$cmd" == "stop" ]];then
             exit 0
@@ -245,7 +247,7 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         echo "deploying jade system, using scheme: ${scheme_deployment_cmd}"
         cd ~/Dev/src/jadelet
         chmod u+x ${scheme_deployment_cmd}
-        ${scheme_deployment_cmd} ${version} ${deployment_config_directory}
+        ${scheme_deployment_cmd} ${version} ${deployment_config_directory} ./jade-devops
 !
 fi
 
@@ -253,7 +255,7 @@ if [[ "$cmd" == "stop" ]];then
     exit 0
 fi
 
-if [[  "$cmd" == "new" || "$cmd" == "addon" || "$cmd" == "reboot" || "$cmd" == "restart" ]];then
+if [[  "$cmd" == "addon" ]];then
     echo "deploy addons on master node"
     ./jade-devops/deploy-addons.sh robin ${master_host}
     echo ""
@@ -285,35 +287,45 @@ if [[ "$cmd" == "reboot" || "$cmd" == "restart" || "$cmd" == "addon" ]];then
     exit 0
 fi
 
-if [[ "$cmd" == "new" || "$cmd" == "test-framework" ]];then
+if [[ "$cmd" == "new" || "$cmd" == "test" || "$cmd" == "devops-and-test" ]];then
     # copy test scripts onto cluster
-    echo "copy ${test_util} to cluster nodes"
-    ssh robin@${master_host} <<!
-        echo "updating ${test_util} on ${master_host}"
-        if [[ -d ./${test_util} || -f ./${test_util} ]];then
-            rm -rf ./${test_util}
-        fi
+    echo "copy ${test_util} to master and cluster nodes"
+    for host in ${master_host} aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
+        ssh robin@${host} <<!
+            echo "updating ${test_util} on ${host}"
+            if [[ -d ./${test_util} || -f ./${test_util} ]];then
+                rm -rf ./${test_util}
+            fi
 
-        if [[ ! -d ./test-data ]]; then
-            mkdir ./test-data
-        fi
-!
-    scp -r ./jade-tests/${test_util} robin@${master_host}:~/${test_util}
-    
-    for i in {1..4}; do
-        host=aces-cluster-0${i}
-ssh robin@${host} <<!
-        echo "updating ${test_util} on ${host}"
-        if [[ -d ./${test_util} || -f ./${test_util} ]];then
-            rm -rf ./${test_util}
-        fi
+            if [[ ! -d ./test-data ]]; then
+                mkdir ./test-data
+            fi
 !
         scp -r ./jade-tests/${test_util} robin@${host}:~/${test_util}
+        echo "${test_util} is copied to $host"
+        echo ""
     done
-
-    if [[ ! -d ./test-data ]]; then
-        mkdir ./test-data
-    fi
 fi
+
+if [[ "$cmd" == "new" || "$cmd" == "devops" || "$cmd" == "devops-and-test" ]];then
+    # copy test scripts onto cluster
+    echo "copy devops to cluster nodes"
+    ssh robin@${master_host} <<!
+        echo "updating devops on ${master_host}"
+        if [[ -d ./jade-devops || -f ./jade-devops ]];then
+            rm -rf ./jade-devops
+        fi
+        mkdir ./jade-devops
+!
+
+    scp ./jade-devops/*.sh robin@${master_host}:~/jade-devops
+    scp ./jade-devops/*.py robin@${master_host}:~/jade-devops
+    scp ./jade-devops/*.json robin@${master_host}:~/jade-devops
+
+    scp -r ./jade-devops/deployments robin@${master_host}:~/jade-devops
+fi
+
+
+
 
 
