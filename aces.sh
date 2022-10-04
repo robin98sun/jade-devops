@@ -21,7 +21,7 @@ test_util='test-framework'
 
 if [[ "$version" != "" ]];then
     # export version to modules
-    for f in jade-go jade-ui/src jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/bin jade-tests/${test_util} jade-app-temp-hum; do
+    for f in jade-go jade-devops jade-devops jadesdk plankton jade-tests/${test_util}/data-plane-tests/bin jade-tests/${test_util} jade-app-temp-hum; do
         echo "writing version number [$version] at $f "
         echo '{ "version": "'${version}'", "branch": "'${branch}'" }' > ${f}/version.json
     done
