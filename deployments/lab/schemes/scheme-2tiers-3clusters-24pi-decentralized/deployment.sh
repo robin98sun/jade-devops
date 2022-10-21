@@ -42,11 +42,25 @@ ${root_dir}/speed-deploy-by-config.py \
     --partial-deployment 'all'
 
 # cluster2: cluster 02: Akshit's Office
+# ${root_dir}/speed-deploy-by-config.py \
+#     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
+#     --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-02.json \
+#     --agents ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.0.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.1.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.2.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.3.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.4.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.5.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.6.json \
+#              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.7.json \
+#     --env-dir ${env_dir} \
+#     --version ${version} \
+#     --partial-deployment 'all'
+
 ${root_dir}/speed-deploy-by-config.py \
     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-02.json \
-    --agents ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.0.json \
-             ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.1.json \
+    --agents ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.1.json \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.2.json \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.3.json \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.4.json \
