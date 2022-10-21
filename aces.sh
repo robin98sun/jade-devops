@@ -10,7 +10,8 @@ password=$5
 scheme=$6
 
 if [[ "$scheme" == "" ]];then
-    scheme="scheme-2tiers-4clusters-32pi-decentralized"
+    # scheme="scheme-2tiers-4clusters-32pi-decentralized"
+    scheme="scheme-2tiers-3clusters-24pi-decentralized"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
