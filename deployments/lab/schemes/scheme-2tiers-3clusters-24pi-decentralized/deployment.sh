@@ -34,12 +34,13 @@ ${root_dir}/speed-deploy-by-config.py \
 
 # tier1
 # cluster1: cluster 01: SEIR225
-${root_dir}/speed-deploy-by-config.py \
-    --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
-    --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
-    --env-dir ${env_dir} \
-    --version ${version} \
-    --partial-deployment 'all'
+# ${root_dir}/speed-deploy-by-config.py \
+#     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
+#     --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
+#     --env-dir ${env_dir} \
+#     --version ${version} \
+#     --partial-deployment 'all'
+
 
 # cluster2: cluster 02: Akshit's Office
 # ${root_dir}/speed-deploy-by-config.py \
