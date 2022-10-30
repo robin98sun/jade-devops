@@ -9,6 +9,15 @@ registry=$4
 password=$5
 scheme=$6
 
+
+if [[ "$branch" != "dev" && "$branch" != "refactoring" ]];then
+    confirm="N"
+    while [[ "$confirm" != "y" && "$confirm" != "Y" ]]; do
+        echo "CAUTION!!! Are you sure switching code base branch to [$branch]? (N/y)"
+        read confirm
+    done
+fi
+
 if [[ "$scheme" == "" ]];then
     # scheme="scheme-2tiers-4clusters-32pi-decentralized"
     scheme="scheme-2tiers-3clusters-24pi-decentralized"
