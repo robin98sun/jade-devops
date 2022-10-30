@@ -203,7 +203,7 @@ if [[ "$tag" != ""  && "$registry" != "" ]];then
 if [[ "$cmd" == "push" || "$cmd" == "build-and-push" ]];then
     echo "build and push images"
     if [[ "$registry_password" != "" ]];then
-        sudo docker login --username $registry --password $registry_password
+        sudo docker login --username $registry --password $registry_password docker.io
     fi
     cd $workspace/jade-go
     sudo docker image build --tag ${registry}/jadelet:${tag} .
