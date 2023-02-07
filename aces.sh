@@ -19,8 +19,8 @@ if [[ "$branch" != "dev" && "$branch" != "refactoring" ]];then
 fi
 
 if [[ "$scheme" == "" ]];then
-    scheme="scheme-2tiers-4clusters-32pi-decentralized"
-    # scheme="scheme-2tiers-3clusters-24pi-decentralized"
+    # scheme="scheme-2tiers-4clusters-32pi-decentralized"
+    scheme="scheme-1tier-ethernet36"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
