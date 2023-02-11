@@ -7,14 +7,6 @@ from threading import Thread, Event
 from time import sleep
 import subprocess
 
-parser = argparse.ArgumentParser(description='RESTful service for reading environment metrics')
-parser.add_argument('--port', type=int, required=False, default=8765,
-                      help='the port to listen')
-
-parser.add_argument('--disk', type=str, required=False, default="/dev/sda",
-                      help='the disk to monitor temperature')
-args = parser.parse_args()
-
 device_info_inst = {
     "CPU_ARCH": ""   
 }
@@ -208,16 +200,11 @@ def read_metrics(metrics, device_info):
         populate_voltage(metrics)
         sleep(0.1)
 
-t = Thread(target=read_metrics, args=(metrics_inst, device_info_inst, ))
-t.start()
+def start_metrics_env_thread():
+    thread_started = True
+    metrics_env_thread = Thread(target=read_metrics, args=(metrics_inst, device_info_inst, ))
+    metrics_env_thread.start()
 
 
-# RESTful service
-app = Flask(__name__)
 
-@app.route("/metrics", methods=["GET"])
-def helloWorld():
-    return jsonify(metrics_inst)
 
-if __name__ == "__main__":
-    app.run(port=args.port, host='0.0.0.0')

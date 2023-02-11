@@ -43,7 +43,7 @@ if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
         # echo "ps -ef | grep 'jade-addons' | grep 'metrics-env' | grep -v 'grep' |wc -l|awk '{print \\\$1}'"
         # echo "there are" `ps -ef | grep "jade-addons" | grep "metrics-env" | grep -v "grep" |wc -l` "addons running"
 
-        ps -ef | grep "jade-addons" | grep "metrics-env" > ./temp-jade-addon-deployment.tmp
+        ps -ef | grep "jade-addons" | grep "jade-addon-http-server" > ./temp-jade-addon-deployment.tmp
         # lines=`cat ./temp-jade-addon-deployment.tmp|wc -l |awk '{print \$1}'`
         # echo "\$line addons running"
 
@@ -83,8 +83,7 @@ if [[ "$cmd" == "rebuild" || "$cmd" == "restart" ]];then
             echo "---->done [\${addon_name}]"
         }
 
-
-
-        start_addon metrics-env ${target_dir}/metrics-env/metrics-env-http.py ${target_dir}/logs 
+        # start_addon metrics-env ${target_dir}/metrics-env/metrics-env-http.py ${target_dir}/logs 
+        start_addon http-server ${target_dir}/jade-addon-http-server.py ${target_dir}/logs 
 !
 fi
