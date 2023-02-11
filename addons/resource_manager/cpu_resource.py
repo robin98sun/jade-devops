@@ -67,7 +67,7 @@ def get_kube_overall_cpu_shares():
     return exec_single_value_cmd("shares", int, "cat /sys/fs/cgroup/cpu/kubepods/cpu.shares")
 
 
-def get_kube_pods_shares(is_besteffort: bool = True):
+def get_kube_pods_cgroup_cpu_info(is_besteffort: bool = True):
 
     result = {
         "error": None,
@@ -77,7 +77,15 @@ def get_kube_pods_shares(is_besteffort: bool = True):
     if is_besteffort:
         base_dir = "/sys/fs/cgroup/cpu/kubepods/besteffort"
 
-    cmd = 'ls {dir}| grep pod | while read line; do shares=`cat {dir}/$line/cpu.shares|tail -1`; echo $line $shares; done'.format(dir = base_dir)
+    cmd = "ls {dir}| grep pod | while read line; do \
+                shares=`cat {dir}/$line/cpu.shares|tail -1`; \
+                period=`cat {dir}/$line/cpu.cfs_period_us|tail -1`; \
+                quota=`cat {dir}/$line/cpu.cfs_quota_us|tail -1`; \
+                nr_period=`cat {dir}/$line/cpu.stat|grep nr_period|tail -1|awk '{{print $2}}'`; \
+                nr_throttled=`cat {dir}/$line/cpu.stat|grep nr_throttled|tail -1|awk '{{print $2}}'`; \
+                throttled_time=`cat {dir}/$line/cpu.stat|grep throttled_time|tail -1|awk '{{print $2}}'`; \
+                echo $line $shares $period $quota $nr_period $nr_throttled $throttled_time; \
+            done".format(dir = base_dir)
 
     stdout, stderr = exec(cmd)
 
@@ -91,32 +99,75 @@ def get_kube_pods_shares(is_besteffort: bool = True):
         lines = stdout.splitlines()
         for line in lines:
             parts = line.split(" ")
-            if len(parts) == 2 and len(parts[0]) > 3:
+            if len(parts) == 7 and len(parts[0]) > 3:
                 if "pods" not in result:
                     result["pods"] = []
                 result["pods"].append({
                     "uid": parts[0][3:],
-                    "share": int(parts[1]),
                     "type": pod_type,
+                    "shares": int(parts[1]),
+                    "period": int(parts[2]),
+                    "quota": int(parts[3]),
+                    "nr_period": int(parts[4]),
+                    "nr_throttled": int(parts[5]),
+                    "throttled_time": int(parts[6]),
                 })
 
     return result
 
 
-SUDO_PWD = 'abacus'
-def update_kube_pod_cpu_quota(pod_uid: str, quota: int, is_besteffort: bool = True):
-    dir_name = os.path.dirname(os.path.realpath(__file__))
+def get_kube_all_pods_cgroup_cpu_info():
+    result_fixed = get_kube_pods_cgroup_cpu_info(is_besteffort = False)
+    result_besteffort = get_kube_pods_cgroup_cpu_info(is_besteffort = True)
+
+    result = {
+        "error": None,
+        "pods": {},
+    }
+    if result_fixed["error"] is not None:
+        result["error"] = result_fixed["error"]
+    elif result_besteffort["error"] is not None:
+        result["error"] = result_besteffort["error"]
+    else:
+        for result_set in [result_fixed, result_besteffort]:
+            for pod in result_set["pods"]:
+                result["pods"][pod["uid"]] = pod
+
+    return result
+
+def get_pod_cgroup_cpu_path(pod_uid, is_besteffort):
     pod_path = "kubepods/"
     if is_besteffort:
         pod_path += "besteffort/"
     pod_path += "pod" + pod_uid
+    return pod_path
+
+def get_kube_pod_cgroup_cpu_resource(resource_type:str, pod_uid: str, is_besteffort: bool = True):
+    pod_path = get_pod_cgroup_cpu_path(pod_uid, is_besteffort)
+    cmd = "cat /sys/fs/cgroup/cpu/"+pod_path
+    if resource_type == "quota":
+        cmd+="/cpu.cfs_quota_us"
+    elif resource_type == "period":
+        cmd+="/cpu.cfs_period_us"
+    elif resource_type == "shares":
+        cmd+="/cpu.shares"
+    else:
+        return {
+            "error": "unsupported resource type: "+resource_type,
+        }
+
+    return exec_single_value_cmd("value", int, cmd)
+
+
+SUDO_PWD = 'abacus'
+def update_kube_pod_cgroup_cpu_resource(resource_type: str, pod_uid: str, value: int, is_besteffort: bool = True):
+    dir_name = os.path.dirname(os.path.realpath(__file__))
+    pod_path = get_pod_cgroup_cpu_path(pod_uid, is_besteffort)
 
     # ref: https://github.com/rajibhossen/microservice-autoscaling
-    cmd ='echo %s | sudo -S python3 %s/update_cpu_quota.py --path %s --quota %s' % (SUDO_PWD, dir_name, pod_path, quota)
+    cmd ='echo %s | sudo -S python3 %s/update_cpu_resources.py --type %s --path %s --value %s' % (SUDO_PWD, dir_name, resource_type, pod_path, value)
 
-    print("cmd for update kube pod cpu quota: " + cmd)
-
-    result = exec_single_value_cmd("quota", int, cmd)
+    result = exec_single_value_cmd("value", int, cmd)
 
     return result
 
