@@ -85,10 +85,14 @@ def api_update_kube_pod_cpu_quota():
     req = request.get_json()
     if req is None or "uid" not in req or "value" not in req or "is_besteffort" not in req or "type" not in req:
         return "invalid request"
+    passwd = None
+    if "passwd" in req:
+        passwd = req["passwd"]
     return jsonify(update_kube_pod_cgroup_cpu_resource(
         resource_type = req["type"],
         pod_uid = req["uid"],
         value = req["value"],
+        passwd = passwd,
         is_besteffort = req["is_besteffort"],
     ))
 print("the controller for [PUT]/kube-pod-cpu-resource is registered")

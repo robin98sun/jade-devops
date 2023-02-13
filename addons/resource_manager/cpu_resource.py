@@ -159,13 +159,17 @@ def get_kube_pod_cgroup_cpu_resource(resource_type:str, pod_uid: str, is_besteff
     return exec_single_value_cmd("value", int, cmd)
 
 
-SUDO_PWD = 'abacus'
-def update_kube_pod_cgroup_cpu_resource(resource_type: str, pod_uid: str, value: int, is_besteffort: bool = True):
+DEFAULT_PASSWD = 'abacus'
+def update_kube_pod_cgroup_cpu_resource(resource_type: str, pod_uid: str, value: int, is_besteffort: bool = True, passwd:str = None):
     dir_name = os.path.dirname(os.path.realpath(__file__))
     pod_path = get_pod_cgroup_cpu_path(pod_uid, is_besteffort)
 
+    sudo_passwd = passwd
+    if passwd is None or passwd == "":
+        sudo_passwd = DEFAULT_PASSWD
+
     # ref: https://github.com/rajibhossen/microservice-autoscaling
-    cmd ='echo %s | sudo -S python3 %s/update_cpu_resources.py --type %s --path %s --value %s' % (SUDO_PWD, dir_name, resource_type, pod_path, value)
+    cmd ='echo %s | sudo -S python3 %s/update_cpu_resources.py --type %s --path %s --value %s' % (sudo_passwd, dir_name, resource_type, pod_path, value)
 
     result = exec_single_value_cmd("value", int, cmd)
 
