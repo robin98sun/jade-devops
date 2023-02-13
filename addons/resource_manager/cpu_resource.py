@@ -130,8 +130,9 @@ def get_kube_all_pods_cgroup_cpu_info():
         result["error"] = result_besteffort["error"]
     else:
         for result_set in [result_fixed, result_besteffort]:
-            for pod in result_set["pods"]:
-                result["pods"][pod["uid"]] = pod
+            if result_set is not None and "pods" in result_set:
+                for pod in result_set["pods"]:
+                    result["pods"][pod["uid"]] = pod
 
     return result
 
