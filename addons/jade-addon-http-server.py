@@ -56,7 +56,9 @@ print("the controller for [GET]/cpu-cores is registered")
 
 @app.route("/kube-overall-cpu-shares", methods=["GET"])
 def api_kube_cpu_shares():
-    return jsonify(jadify_response(get_kube_overall_cpu_shares()))
+    res = jsonify(jadify_response(get_kube_overall_cpu_shares()))
+    app.logger.info("response of /kube-overall-cpu-shares:", res)
+    return res
 print("the controller for [GET]/kube-ovall-cpu-shares is registered")
 
 
