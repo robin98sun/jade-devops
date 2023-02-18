@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from flask import Flask, jsonify, request
-import argparse
+from flask import Flask, jsonify, request, logging
+import argparse, sys
 parser = argparse.ArgumentParser(description='RESTful service for reading environment metrics')
 parser.add_argument('--port', type=int, required=False, default=8765,
                       help='the port to listen')
@@ -11,6 +11,8 @@ args = parser.parse_args()
 
 # RESTful service
 app = Flask(__name__)
+
+app.logger.addHandler(logging.default_handler)
 
 
 # environment metrics
@@ -57,7 +59,7 @@ print("the controller for [GET]/cpu-cores is registered")
 @app.route("/kube-overall-cpu-shares", methods=["GET"])
 def api_kube_cpu_shares():
     res = jsonify(jadify_response(get_kube_overall_cpu_shares()))
-    app.logger.info("response of /kube-overall-cpu-shares:", res)
+    print("res:", res, file=sys.stderr)
     return res
 print("the controller for [GET]/kube-ovall-cpu-shares is registered")
 
@@ -97,18 +99,21 @@ print("the controller for [GET]/kube-pod-cpu-resource is registered")
 @app.route("/kube-pod-cpu-resource", methods=["PUT"])
 def api_update_kube_pod_cpu_quota():
     req = request.get_json()
+    print("req:", req, file=sys.stderr)
     if req is None or "uid" not in req or "value" not in req or "is_besteffort" not in req or "type" not in req:
         return jsonify(jadify_response(None, err="invalid request"))
     passwd = None
     if "passwd" in req:
         passwd = req["passwd"]
-    return jsonify(jadify_response(update_kube_pod_cgroup_cpu_resource(
+    res = jsonify(jadify_response(update_kube_pod_cgroup_cpu_resource(
         resource_type = req["type"],
         pod_uid = req["uid"],
         value = req["value"],
         passwd = passwd,
         is_besteffort = req["is_besteffort"],
     )))
+    print("res:", res, file=sys.stderr)
+    return res
 print("the controller for [PUT]/kube-pod-cpu-resource is registered")
 
 
