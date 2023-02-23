@@ -20,7 +20,7 @@ fi
 
 if [[ "$scheme" == "" ]];then
     # scheme="scheme-2tiers-4clusters-32pi-decentralized"
-    scheme="scheme-1tier-ethernet36"
+    scheme="scheme-1tier-32pi-ethernet"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
