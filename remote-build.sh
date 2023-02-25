@@ -224,6 +224,9 @@ if [[ "$cmd" == "push" || "$cmd" == "build-and-push" ]];then
     if [[ \$? != 0 ]];then exit; fi
 
     sudo docker image ls | grep jade | awk '{print \$3}'|xargs sudo docker image rm -f
+    
+    sudo docker system prune -a -f
+    
 fi
 fi
 
