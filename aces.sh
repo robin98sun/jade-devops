@@ -271,6 +271,9 @@ if [[  "$cmd" == "addon" ]];then
     echo ""
     for i in {1..4}; do
         for j in {1..4}; do
+            if [[ $i == 1 && $j == 2 ]];then
+                continue
+            fi
             echo "deploy addons on pi ${i}${j}"
             ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
             echo ""
