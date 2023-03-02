@@ -86,7 +86,6 @@ ${root_dir}/speed-deploy-by-config.py \
     --registry ${root_dir}/deployments/lab/hosts/$deployment_config_directory/master-node.json \
     --master ${root_dir}/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-04.json \
     --agents ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
-             ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.3.json \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.4.json \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.1.json \
              ${root_dir}/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.2.json \
