@@ -25,7 +25,7 @@ fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
 deployment_config_directory='ethernet-36'
-master_host='aces-diamonds-ace.uta.edu'
+master_host='aces-diamonds-ace'
 isa_arm_host='aces-devpi-01'
 test_util='test-framework'
 
@@ -275,7 +275,7 @@ if [[  "$cmd" == "addon" ]];then
                 continue
             fi
             echo "deploy addons on pi ${i}${j}"
-            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
+            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j} 
             echo ""
         done
     done
@@ -284,14 +284,14 @@ if [[  "$cmd" == "addon" ]];then
     for i in {5..6}; do
         for j in {0..7}; do
             echo "deploy addons on pi ${i}${j}"
-            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}.uta.edu 
+            ./jade-devops/deploy-addons.sh pi aces-pi-${i}${j}
             echo ""
         done
     done
 
     for i in {1..4}; do
         echo "deploy addons on cluster ${j}"
-        ./jade-devops/deploy-addons.sh robin aces-cluster-0${i}.uta.edu 
+        ./jade-devops/deploy-addons.sh robin aces-cluster-0${i}
         echo ""
     done
 fi
