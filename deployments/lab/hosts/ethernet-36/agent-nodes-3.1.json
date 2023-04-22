@@ -2,7 +2,7 @@
   "nodes": {
     "aces-pi-31": {
       "hostname": "aces-pi-31",
-      "address": "129.107.208.19"
+      "address": "129.107.208.41"
     }
   },
   "capacity": {
@@ -14,13 +14,13 @@
   "capabilities": {
     "private": {
       "VIDEOSTREAM_URL": "get;http://176.0.0.1:8888/video_stream",
-      "jade-addon-env-metrics": "get;http://129.107.208.19:8765/metrics",
-      "jade-app-temp-hum_db_host": ";value://129.107.208.19",
+      "jade-addon-env-metrics": "get;http://129.107.208.41:8765/metrics",
+      "jade-app-temp-hum_db_host": ";value://129.107.208.41",
       "jade-app-temp-hum_db_name": ";value://tempsdb",
       "jade-app-temp-hum_db_pass": ";value://abacus",
       "jade-app-temp-hum_db_port": ";value://3306",
       "jade-app-temp-hum_db_user": ";value://aces",
-      "jade-app-temp-hum_service": "post;http://129.107.208.19:30000"
+      "jade-app-temp-hum_service": "post;http://129.107.208.41:30000"
     },
     "public": {
       "accuracy": ";value://city",
