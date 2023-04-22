@@ -20,7 +20,7 @@ fi
 
 if [[ "$scheme" == "" ]];then
     # scheme="scheme-2tiers-4clusters-32pi-decentralized"
-    scheme="scheme-1tier-32pi-ethernet"
+    scheme="scheme-1tier-30pi-ethernet"
 fi
 scheme_deployment_cmd="./jade-devops/deployments/lab/schemes/${scheme}/deployment.sh"
 
@@ -233,8 +233,15 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
     ssh robin@${master_host} <<!
         # delete app pods
         echo "kubectl get deployments|grep app-jade|awk '{print \$1}'|xargs kubectl delete deployments"
-        #kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 --force
-        kubectl get deployments|grep jade|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 
+        kubectl get deployments|grep "app-jade"|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 
+
+        kubectl get pods|grep "app-jade"|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0 
+
+
+        echo "kubectl get deployments|grep plankton|awk '{print \$1}'|xargs kubectl delete deployments"
+        kubectl get deployments|grep "plankton"|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0
+        kubectl get pods|grep "plankton"|awk '{print \$1}'|xargs kubectl delete deployments --grace-period=0
+
         # delete jade
         echo "kubectl get pods|grep jadelet|grep -v Terminating|awk '{print \$1}'|xargs kubectl delete pods"
         #kubectl get pods|grep jade|awk '{print \$1}'|xargs kubectl delete pods --grace-period=0 --force
