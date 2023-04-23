@@ -10,7 +10,7 @@ password=$5
 scheme=$6
 
 
-if [[ "$branch" != "dev" && "$branch" != "refactoring" ]];then
+if [[ "$branch" != "dev/robin" && "$branch" != "refactoring"  ]];then
     confirm="N"
     while [[ "$confirm" != "y" && "$confirm" != "Y" ]]; do
         echo "CAUTION!!! Are you sure switching code base branch to [$branch]? (N/y)"
@@ -327,19 +327,23 @@ fi
 if [[ "$cmd" == "new" || "$cmd" == "devops" || "$cmd" == "devops-and-test" ]];then
     # copy test scripts onto cluster
     echo "copy devops to cluster nodes"
-    ssh robin@${master_host} <<!
-        echo "updating devops on ${master_host}"
-        if [[ -d ./jade-devops || -f ./jade-devops ]];then
-            rm -rf ./jade-devops
-        fi
-        mkdir ./jade-devops
+
+    for host in ${master_host} aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
+        ssh robin@${host} <<!
+            echo "updating devops on ${host}"
+            if [[ -d ./jade-devops || -f ./jade-devops ]];then
+                rm -rf ./jade-devops
+            fi
+            mkdir ./jade-devops
 !
 
-    scp ./jade-devops/*.sh robin@${master_host}:~/jade-devops
-    scp ./jade-devops/*.py robin@${master_host}:~/jade-devops
-    scp ./jade-devops/*.json robin@${master_host}:~/jade-devops
+        scp ./jade-devops/*.sh robin@${host}:~/jade-devops
+        scp ./jade-devops/*.py robin@${host}:~/jade-devops
+        scp ./jade-devops/*.json robin@${host}:~/jade-devops
 
-    scp -r ./jade-devops/deployments robin@${master_host}:~/jade-devops
+        scp -r ./jade-devops/deployments robin@${host}:~/jade-devops
+
+    done
 fi
 
 

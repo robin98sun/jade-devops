@@ -148,7 +148,7 @@ def api_update_scalable_cpu_freq():
     # print("request data:", request.get_data(), file=sys.stderr)
     if req is None or "freq" not in req:
         return jsonify(jadify_response(None, err="invalid request"))
-    res = jsonify(jadify_response(update_scalable_cpu_freq(int(req["freq"]))))
+    res = jsonify(jadify_response(update_scalable_cpu_freq(float(req["freq"]))))
     print("res:", res, file=sys.stderr)
     return res
 print("the controller for [PUT]/scalable-cpu-frequency is registered")
