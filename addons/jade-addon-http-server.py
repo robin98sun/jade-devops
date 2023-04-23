@@ -41,9 +41,12 @@ from resource_manager.cpu_resource import update_kube_pod_cgroup_cpu_resource
 
 def jadify_response(res, err = None):
     if err is not None:
-        return {
+        msg = {
             "error": err,
         }
+        if res is not None:
+            msg["context"] = res
+        return msg
 
     return {
         "status": "OK",
@@ -141,6 +144,8 @@ print("the controller for [GET]/scalable-cpu-frequency is registered")
 def api_update_scalable_cpu_freq():
     req = request.get_json()
     print("req:", req, file=sys.stderr)
+    # print("request header:", request.headers, file=sys.stderr)
+    # print("request data:", request.get_data(), file=sys.stderr)
     if req is None or "freq" not in req:
         return jsonify(jadify_response(None, err="invalid request"))
     res = jsonify(jadify_response(update_scalable_cpu_freq(int(req["freq"]))))

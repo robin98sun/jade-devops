@@ -146,8 +146,12 @@ def update_scalable_cpu_freq(freq, passwd=None):
         return result
 
     freq_in_file = freq
-    if freq < 10000:
+    if freq < 10:
+        freq_in_file = freq*1000*1000
+    elif freq < 10000:
         freq_in_file = freq*1000
+
+    freq_in_file=int(round(freq_in_file))
 
     dir_name = os.path.dirname(os.path.realpath(__file__))
     sudo_passwd = passwd
