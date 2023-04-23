@@ -108,6 +108,7 @@ def populate_frequency(metrics, device_info):
         metrics["CPU"]["frequency"] = cpu_curr_freq
 
 
+
 def populate_temperatures(metrics, device_info):
     if "arm" not in device_info["CPU_ARCH"]:
         text, _, retcode = exec_cmd('sensors')

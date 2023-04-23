@@ -38,6 +38,7 @@ from resource_manager.cpu_resource import get_kube_all_pods_cgroup_cpu_info
 from resource_manager.cpu_resource import get_kube_pod_cgroup_cpu_resource
 from resource_manager.cpu_resource import update_kube_pod_cgroup_cpu_resource
 
+
 def jadify_response(res, err = None):
     if err is not None:
         return {
@@ -115,6 +116,37 @@ def api_update_kube_pod_cpu_quota():
     print("res:", res, file=sys.stderr)
     return res
 print("the controller for [PUT]/kube-pod-cpu-resource is registered")
+
+
+
+# adjust cpu frequency
+from resource_manager.cpu_resource import get_scalable_cpu_freq
+from resource_manager.cpu_resource import update_scalable_cpu_freq
+
+@app.route("/scalable-cpu-frequency", methods=["GET"])
+def api_get_scalable_cpu_freq():
+    def handler():
+        result = {}
+        for prop in ["is-scalable", "freq-cur", "freq-min", "freq-max"]:
+            res = get_scalable_cpu_freq(prop)
+            if "error" in res and res["error"] is not None:
+                return res
+            elif prop in res:
+                result[prop] = res[prop]
+        return result
+    return jsonify(jadify_response(handler()))
+print("the controller for [GET]/scalable-cpu-frequency is registered")
+
+@app.route("/scalable-cpu-frequency", methods=["PUT"])
+def api_update_scalable_cpu_freq():
+    req = request.get_json()
+    print("req:", req, file=sys.stderr)
+    if req is None or "freq" not in req:
+        return jsonify(jadify_response(None, err="invalid request"))
+    res = jsonify(jadify_response(update_scalable_cpu_freq(int(req["freq"]))))
+    print("res:", res, file=sys.stderr)
+    return res
+print("the controller for [PUT]/scalable-cpu-frequency is registered")
 
 
 # Start the http server

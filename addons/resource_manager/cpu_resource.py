@@ -6,7 +6,9 @@
 
 import os
 import subprocess, shutil
+import json
 
+DEFAULT_PASSWD = 'abacus'
 
 # utility functions
 def exec(cmd, verbose=False, stdout=None, stderr=None):
@@ -59,6 +61,116 @@ def exec_single_value_cmd(key, data_type, cmd):
 
     return result
 
+def get_cpu_architecture():
+    text, err = exec('lscpu -J')
+    if err != None:
+        return None
+
+    cpu_info = json.loads(text)
+    if "lscpu" in cpu_info:
+        for item in cpu_info["lscpu"]:
+            if "field" in item and "data" in item:
+                if item["field"] == "Architecture:":
+                    return item["data"]
+    return None
+
+def get_cpu_architecture():
+    text, err = exec('lscpu -J')
+    if err != None and err != "":
+        return text, err
+    
+    cpu_info = json.loads(text)
+    if "lscpu" in cpu_info:
+        for item in cpu_info["lscpu"]:
+            if "field" in item and "data" in item:
+                if item["field"] == "Architecture:":
+                    return item["data"], None
+    return None, 'lscpu is not found'
+
+# raspberry pi cpu frequency scaling
+# ref: https://forums.raspberrypi.com/viewtopic.php?t=152692
+# be sure to remove 'force_turbo=1' in the file '/boot/config.txt' for the pi device and reboot to make its CPU frequency scalable if there was the line
+def get_scalable_cpu_freq(prop):
+    result = {
+        "error": "unsupported",
+    }
+
+    arch, err = get_cpu_architecture()
+    if err is not None:
+        result["error"] = err
+        result["arch"] = arch
+        return result
+    elif arch is None or "arm" not in arch:
+        result["arch"] = arch
+        return result
+
+    cmd = None
+    if prop == "freq-cur":
+        cmd = "sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq"
+    elif prop == "freq-min":
+        cmd = "sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"
+    elif prop == "freq-max":
+        cmd = "sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"
+    elif prop == "is-scalable":
+        cmd = "cat /boot/config.txt|grep -i 'force_turbo=1'|grep -v '\#'|wc -l|awk '{print $1}'"
+    if cmd is None:
+        result["prop"] = prop
+        return result
+
+    result[prop] = 0
+
+    result = exec_single_value_cmd(prop, int, cmd)
+    if prop == "is-scalable":
+        if prop in result:
+            if result[prop] == 0:
+                result[prop] = True
+            else:
+                result[prop] = False
+    elif prop in result:
+        result[prop] = result[prop]/1000
+    
+    return result
+
+# echo "powersave"| sudo tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+def update_scalable_cpu_freq(freq, passwd=None):
+    result = {
+        "error": "unsupported",
+    }    
+    arch, err = get_cpu_architecture()
+    if err is not None:
+        result["error"] = err
+        result["arch"] = arch
+        return result
+    elif arch is None or "arm" not in arch:
+        result["arch"] = arch
+        return result
+
+    freq_in_file = freq
+    if freq < 10000:
+        freq_in_file = freq*1000
+
+    dir_name = os.path.dirname(os.path.realpath(__file__))
+    sudo_passwd = passwd
+    if passwd is None or passwd == "":
+        sudo_passwd = DEFAULT_PASSWD
+
+    for scale in ["min", "max"]:
+
+        # ref: https://github.com/rajibhossen/microservice-autoscaling
+        cmd ='echo %s | sudo -S python3 %s/update_cpu_frequency_raspberry_pi.py --type %s --value %s' % (sudo_passwd, dir_name, scale, freq_in_file)
+
+        result = exec_single_value_cmd("value", int, cmd)
+
+        if "error" in result and result["error"] is not None:
+            return result
+
+    return get_scalable_cpu_freq("freq-cur")
+
+
+
+
+
+# general cpu resource based on cgroup
 def get_cpu_cores():
     return exec_single_value_cmd("cores", int, "cat /proc/cpuinfo|grep processor|wc -l|awk '{print $1}'")
 
@@ -68,7 +180,6 @@ def get_kube_overall_cpu_shares():
 
 
 def get_kube_pods_cgroup_cpu_info(is_besteffort: bool = True):
-
     result = {
         "error": None,
     }
@@ -160,7 +271,6 @@ def get_kube_pod_cgroup_cpu_resource(resource_type:str, pod_uid: str, is_besteff
     return exec_single_value_cmd("value", int, cmd)
 
 
-DEFAULT_PASSWD = 'abacus'
 def update_kube_pod_cgroup_cpu_resource(resource_type: str, pod_uid: str, value: int, is_besteffort: bool = True, passwd:str = None):
     dir_name = os.path.dirname(os.path.realpath(__file__))
     pod_path = get_pod_cgroup_cpu_path(pod_uid, is_besteffort)
