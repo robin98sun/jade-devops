@@ -22,7 +22,7 @@ if [[ ! -d $env_dir ]];then
     mkdir -p ${env_dir}
 fi
 
-# without pi-13 or pi-31
+# without pi-13 or pi-51
 ./jade-devops/speed-deploy-by-config.py \
     --master ./jade-devops/deployments/lab/hosts/$deployment_config_directory/cluster-nodes-01.json \
     --agents ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-1.1.json \
@@ -32,6 +32,7 @@ fi
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-2.4.json \
+             ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-3.4.json \
@@ -40,7 +41,6 @@ fi
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-4.4.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.0.json \
-             ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.1.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.2.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.3.json \
              ./jade-devops/deployments/lab/hosts/$deployment_config_directory/agent-nodes-5.4.json \

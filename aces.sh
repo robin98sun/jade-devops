@@ -253,6 +253,10 @@ if [[ "$cmd" == "stop" || "$cmd" == "new" || "$cmd" == "reboot" || "$cmd" == "re
         # delete app services
         echo "kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services"
         kubectl get services|grep srv|grep jade-app|awk '{print \$1}'|xargs kubectl delete services 
+
+        echo "kubectl get services|grep plankton|awk '{print \$1}'|xargs kubectl delete services"
+        kubectl get services|grep plankton|awk '{print \$1}'|xargs kubectl delete services
+
         echo "kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services"
         kubectl get services|grep emulation|awk '{print \$1}'|xargs kubectl delete services
 
