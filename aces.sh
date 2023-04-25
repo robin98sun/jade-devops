@@ -311,7 +311,7 @@ fi
 if [[ "$cmd" == "new" || "$cmd" == "test" || "$cmd" == "devops-and-test" ]];then
     # copy test scripts onto cluster
     echo "copy ${test_util} to master and cluster nodes"
-    for host in ${master_host} aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
+    for host in aces-diamonds-ace aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
         ssh robin@${host} <<!
             echo "updating ${test_util} on ${host}"
             if [[ -d ./${test_util} || -f ./${test_util} ]];then
@@ -332,7 +332,7 @@ if [[ "$cmd" == "new" || "$cmd" == "devops" || "$cmd" == "devops-and-test" ]];th
     # copy test scripts onto cluster
     echo "copy devops to cluster nodes"
 
-    for host in ${master_host} aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
+    for host in aces-diamonds-ace aces-cluster-01 aces-cluster-02 aces-cluster-03 aces-cluster-04; do
         ssh robin@${host} <<!
             echo "updating devops on ${host}"
             if [[ -d ./jade-devops || -f ./jade-devops ]];then
