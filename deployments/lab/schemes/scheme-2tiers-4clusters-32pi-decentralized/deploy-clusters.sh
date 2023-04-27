@@ -27,7 +27,7 @@ if [[ "$5"  != "" ]];then
 fi
 
 env_dir=${root_dir}/deployments/lab/env
-# rm -rf ${env_dir}
+rm -rf ${env_dir}
 if [[ ! -d $env_dir ]];then
     mkdir -p ${env_dir}
 fi

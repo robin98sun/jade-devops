@@ -21,7 +21,7 @@ kubectl get pods|sed '1d'|awk '{print $1}'|while read pod; do
 
     $cmd
 
-!
+!|
     
     echo ""
 done
